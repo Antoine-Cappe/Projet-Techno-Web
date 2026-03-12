@@ -1,54 +1,84 @@
-import { Link } from '@tanstack/react-router'
-import { Route as indexRoute } from './routes/index'
-import { Route as aboutRoute } from './routes/about'
-import { Route as booksRoute } from './routes/books'
-import { Space, type MenuProps } from 'antd'
-import { BookOutlined, HomeOutlined, InfoOutlined } from '@ant-design/icons'
-import Menu from 'antd/es/menu/menu'
+import {
+  BookOutlined,
+  HomeOutlined,
+  InfoOutlined,
+  UserOutlined,
+  TeamOutlined,
+} from '@ant-design/icons'
+import { Layout as AntLayout, Menu } from 'antd'
+import type { ReactNode } from 'react'
+import { Link, useRouter } from '@tanstack/react-router'
 
 interface LayoutProps {
-  children: React.ReactNode
+  children: ReactNode
 }
 
+const { Header, Content } = AntLayout
+
 export function Layout({ children }: LayoutProps) {
-  const items: Required<MenuProps>['items'] = [
-    {
-      label: <Link to={indexRoute.to}>Home</Link>,
-      key: 'home',
-      icon: <HomeOutlined />,
-    },
-    {
-      label: <Link to={booksRoute.to}>Books</Link>,
-      key: 'books',
-      icon: <BookOutlined />,
-    },
-    {
-      label: <Link to={aboutRoute.to}>About</Link>,
-      key: 'about',
-      icon: <InfoOutlined />,
-    },
+  const router = useRouter()
+  const pathname = router.state.location.pathname
+
+  const items = [
+    { label: <Link to="/">Home</Link>, key: '/', icon: <HomeOutlined /> },
+    { label: <Link to="/books">Books</Link>, key: '/books', icon: <BookOutlined /> },
+    { label: <Link to="/authors">Authors</Link>, key: '/authors', icon: <UserOutlined /> },
+    { label: <Link to="/clients">Clients</Link>, key: '/clients', icon: <TeamOutlined /> },
+    { label: <Link to="/about">About</Link>, key: '/about', icon: <InfoOutlined /> },
   ]
 
   return (
-    <Space
-      direction="vertical"
-      style={{
-        width: '100%',
-        height: '100vh',
-      }}
-    >
-      <div
+    <AntLayout style={{ minHeight: '100vh' }}>
+      <Header
         style={{
-          textAlign: 'left',
-          width: '100%',
-          backgroundColor: '#395E66',
-          color: 'white',
+          background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)',
+          display: 'flex',
+          alignItems: 'center',
+          padding: '0 32px',
+          boxShadow: '0 2px 8px rgba(79, 70, 229, 0.3)',
+          position: 'sticky',
+          top: 0,
+          zIndex: 100,
+          height: 64,
         }}
       >
-        <h2 style={{ marginTop: '0' }}>Babel&apos;s Library</h2>
-        <Menu mode="horizontal" items={items} />
-      </div>
-      <div style={{ width: '100%', overflowY: 'scroll' }}>{children}</div>
-    </Space>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, marginRight: 40 }}>
+          <BookOutlined style={{ fontSize: 24, color: '#fff' }} />
+          <span
+            style={{
+              color: '#fff',
+              fontSize: 20,
+              fontWeight: 700,
+              letterSpacing: '-0.03em',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Babel&apos;s Library
+          </span>
+        </Link>
+        <Menu
+          mode="horizontal"
+          items={items}
+          selectedKeys={[pathname]}
+          style={{
+            flex: 1,
+            background: 'transparent',
+            borderBottom: 'none',
+            fontSize: 14,
+            fontWeight: 500,
+          }}
+        />
+      </Header>
+      <Content
+        style={{
+          padding: '32px 48px',
+          maxWidth: 1200,
+          width: '100%',
+          margin: '0 auto',
+        }}
+      >
+        {children}
+      </Content>
+    </AntLayout>
   )
 }

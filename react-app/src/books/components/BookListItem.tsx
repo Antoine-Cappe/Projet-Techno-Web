@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import type { BookModel, UpdateBookModel } from '../BookModel'
-import { Button, Col, Row } from 'antd'
+import { Button, Card, Input, Space, Tag, Tooltip } from 'antd'
 import {
   CheckOutlined,
   CloseOutlined,
   DeleteOutlined,
   EditOutlined,
+  CalendarOutlined,
+  UserOutlined,
 } from '@ant-design/icons'
 import { Link } from '@tanstack/react-router'
 
@@ -30,66 +32,104 @@ export function BookListItem({ book, onDelete, onUpdate }: BookListItemProps) {
   }
 
   return (
-    <Row
+    <Card
+      size="small"
       style={{
-        width: '100%',
-        height: '50px',
-        borderRadius: '10px',
-        backgroundColor: '#EEEEEE',
-        margin: '1rem 0',
-        padding: '.25rem',
-        display: 'flex',
-        justifyContent: 'space-between',
+        borderRadius: 12,
+        border: '1px solid #e5e7eb',
+        transition: 'box-shadow 0.2s ease, border-color 0.2s ease',
       }}
-    >
-      <Col span={12} style={{ margin: 'auto 0' }}>
-        {isEditing ? (
-          <input value={title} onChange={e => setTitle(e.target.value)} />
-        ) : (
-          <Link
-            to={`/books/$bookId`}
-            params={{ bookId: book.id }}
-            style={{
-              margin: 'auto 0',
-              textAlign: 'left',
-            }}
-          >
-            <span style={{ fontWeight: 'bold' }}>{book.title}</span> -{' '}
-            {book.yearPublished}
-          </Link>
-        )}
-      </Col>
-      <Col span={9} style={{ margin: 'auto 0' }}>
-        by <span style={{ fontWeight: 'bold' }}>{book.author.firstName}</span>{' '}
-        <span style={{ fontWeight: 'bold' }}>{book.author.lastName}</span>
-      </Col>
-      <Col
-        span={3}
-        style={{
-          alignItems: 'right',
+      styles={{
+        body: {
+          padding: '16px 20px',
           display: 'flex',
-          gap: '.25rem',
-          margin: 'auto 0',
-        }}
-      >
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        },
+      }}
+      hoverable
+    >
+      <div style={{ flex: 1, minWidth: 0 }}>
+        {isEditing ? (
+          <Input
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            style={{ maxWidth: 300 }}
+            onPressEnter={onValidateEdit}
+            autoFocus
+          />
+        ) : (
+          <div>
+            <Link
+              to={`/books/$bookId`}
+              params={{ bookId: book.id }}
+              style={{ fontSize: 16, fontWeight: 600 }}
+            >
+              {book.title}
+            </Link>
+            <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
+              <Tag
+                icon={<CalendarOutlined />}
+                color="default"
+                style={{ borderRadius: 6, margin: 0 }}
+              >
+                {book.yearPublished}
+              </Tag>
+              <Tag
+                icon={<UserOutlined />}
+                color="purple"
+                style={{ borderRadius: 6, margin: 0 }}
+              >
+                {book.author.firstName} {book.author.lastName}
+              </Tag>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <Space size={8}>
         {isEditing ? (
           <>
-            <Button type="primary" onClick={onValidateEdit}>
-              <CheckOutlined />
-            </Button>
-            <Button onClick={onCancelEdit}>
-              <CloseOutlined />
-            </Button>
+            <Tooltip title="Save">
+              <Button
+                type="primary"
+                icon={<CheckOutlined />}
+                onClick={onValidateEdit}
+                shape="circle"
+                size="small"
+              />
+            </Tooltip>
+            <Tooltip title="Cancel">
+              <Button
+                icon={<CloseOutlined />}
+                onClick={onCancelEdit}
+                shape="circle"
+                size="small"
+              />
+            </Tooltip>
           </>
         ) : (
-          <Button type="primary" onClick={() => setIsEditing(true)}>
-            <EditOutlined />
-          </Button>
+          <Tooltip title="Edit title">
+            <Button
+              type="text"
+              icon={<EditOutlined />}
+              onClick={() => setIsEditing(true)}
+              shape="circle"
+              size="small"
+            />
+          </Tooltip>
         )}
-        <Button type="primary" danger onClick={() => onDelete(book.id)}>
-          <DeleteOutlined />
-        </Button>
-      </Col>
-    </Row>
+        <Tooltip title="Delete">
+          <Button
+            type="text"
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => onDelete(book.id)}
+            shape="circle"
+            size="small"
+          />
+        </Tooltip>
+      </Space>
+    </Card>
   )
 }
