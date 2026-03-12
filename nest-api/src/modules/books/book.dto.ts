@@ -34,11 +34,13 @@ export class GetBooksDto {
   @IsInt()
   @Min(1)
   @Max(100)
-  limit: number;
+  @IsOptional()
+  limit: number = 10;
 
   @IsInt()
   @Min(0)
-  offset: number;
+  @IsOptional()
+  offset: number = 0;
 
   @IsString()
   @IsOptional()
