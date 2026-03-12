@@ -7,7 +7,12 @@ import { AuthorModule } from './modules/authors/author.module';
 import { ClientsModule } from './modules/clients/client.module';
 
 @Module({
-  imports: [DatabaseModule, AuthorModule, BookModule, ClientsModule],
+  imports: [
+    DatabaseModule, // <--- Mets-le en haut de la liste
+    AuthorModule,
+    BookModule,
+    ClientsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
