@@ -65,6 +65,11 @@ export class BookRepository {
       throw new Error('Author not found');
     }
 
+    const newBook = this.bookRepository.create({
+      ...book,
+      photoUrl: book.photoUrl // Mapping manuel si nécessaire
+    });
+
     return this.bookRepository.save(this.bookRepository.create(book));
   }
 

@@ -10,5 +10,4 @@ export type AuthorModel = {
 export type CreateAuthorModel = {
   firstName: string;
   lastName: string;
-  photoUrl?: string | null; 
 };

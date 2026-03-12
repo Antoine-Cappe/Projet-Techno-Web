@@ -25,4 +25,13 @@ export class AuthorService {
   public async createAuthor(author: CreateAuthorModel): Promise<AuthorModel> {
     return this.authorRepository.createAuthor(author);
   }
+
+  public async updateAuthor(id: string, author: any): Promise<any> {
+    return this.authorRepository.updateAuthor(id, author);
+  }
+
+  // AJOUT : Demander au repository de supprimer
+  public async deleteAuthor(id: string): Promise<void> {
+    await this.authorRepository.deleteAuthor(id);
+  }
 }

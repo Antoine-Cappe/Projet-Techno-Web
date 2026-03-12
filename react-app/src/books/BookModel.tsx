@@ -2,6 +2,7 @@ export type BookModel = {
   id: string
   title: string
   yearPublished: number
+  photoUrl?: string | null;
   author: {
     id: string
     firstName: string
@@ -13,6 +14,7 @@ export type CreateBookModel = {
   authorId: string
   title: string
   yearPublished: number
+  photoUrl?: string;
 }
 
 export type UpdateBookModel = Partial<CreateBookModel>

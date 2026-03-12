@@ -25,8 +25,18 @@ export class AuthorRepository {
       relations: ['books'], // Crucial pour afficher la liste des livres
     });
   }
-  
+
   public async createAuthor(author: CreateAuthorModel): Promise<AuthorModel> {
     return this.authorRepository.save(this.authorRepository.create(author));
+  }
+
+  public async updateAuthor(id: string, data: any): Promise<AuthorEntity | null> {
+    await this.authorRepository.update(id, data);
+    return this.getAuthorById(id);
+  }
+
+  // AJOUT : Supprimer l'auteur de la base de données
+  public async deleteAuthor(id: string): Promise<void> {
+    await this.authorRepository.delete(id);
   }
 }

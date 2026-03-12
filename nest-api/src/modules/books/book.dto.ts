@@ -9,9 +9,13 @@ export class CreateBookDto {
   authorId: AuthorId;
 
   @IsInt()
-  @Min(1500)
-  @Max(2025)
+  @Min(0)
+  @Max(2026)
   yearPublished: number;
+
+  @IsString()
+  @IsOptional()
+  photoUrl?: string; 
 }
 
 export class UpdateBookDto {
@@ -24,10 +28,14 @@ export class UpdateBookDto {
   authorId: AuthorId;
 
   @IsInt()
-  @Min(1500)
-  @Max(2025)
+  @Min(0)
+  @Max(2026)
   @IsOptional()
   yearPublished: number;
+
+  @IsString()
+  @IsOptional()
+  photoUrl?: string;
 }
 
 export class GetBooksDto {

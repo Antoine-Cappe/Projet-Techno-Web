@@ -13,14 +13,16 @@ interface CreateBookModalProps {
 export function CreateBookModal({ onCreate }: CreateBookModalProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [title, setTitle] = useState('')
-  const [yearPublished, setYearPublished] = useState(0)
+  const [yearPublished, setYearPublished] = useState(2026) // Changement par défaut à 2026
   const [authorId, setAuthorId] = useState<string | undefined>(undefined)
+  const [photoUrl, setPhotoUrl] = useState('') // Ajout de l'état pour la photo
   const { authors, loadAuthors } = useBookAuthorsProviders()
 
   const onClose = () => {
     setTitle('')
-    setYearPublished(0)
+    setYearPublished(2026)
     setAuthorId(undefined)
+    setPhotoUrl('') // Réinitialisation de la photo
     setIsOpen(false)
   }
 
@@ -47,12 +49,14 @@ export function CreateBookModal({ onCreate }: CreateBookModalProps) {
         onCancel={onClose}
         onOk={() => {
           if (authorId) {
-            onCreate({ title, yearPublished, authorId })
+            // Inclusion de photoUrl dans l'objet envoyé
+            onCreate({ title, yearPublished, authorId, photoUrl }) 
             onClose()
           }
         }}
         okText="Create"
         okButtonProps={{
+          // Le bouton est activé si on a un auteur, un titre et une année
           disabled: !authorId || !title?.length || !yearPublished,
         }}
       >
@@ -84,9 +88,19 @@ export function CreateBookModal({ onCreate }: CreateBookModalProps) {
             <Text strong style={{ display: 'block', marginBottom: 6 }}>Year Published</Text>
             <Input
               type="number"
-              placeholder="e.g. 2024"
+              placeholder="e.g. 2026"
               value={yearPublished || ''}
               onChange={e => setYearPublished(Number(e.target.value))}
+              size="large"
+            />
+          </div>
+          {/* Nouveau champ pour la Photo URL */}
+          <div>
+            <Text strong style={{ display: 'block', marginBottom: 6 }}>Photo URL (Optional)</Text>
+            <Input
+              placeholder="Paste the image URL here"
+              value={photoUrl}
+              onChange={e => setPhotoUrl(e.target.value)}
               size="large"
             />
           </div>
