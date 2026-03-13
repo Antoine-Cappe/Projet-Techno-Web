@@ -3,6 +3,7 @@ export type BookModel = {
   title: string
   yearPublished: number
   photoUrl?: string | null;
+  purchasedCount?: number
   author: {
     id: string
     firstName: string

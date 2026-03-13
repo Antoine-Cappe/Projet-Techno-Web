@@ -10,15 +10,14 @@ export const useBookDetailsProvider = (id: string) => {
   const loadBook = async () => {
     setIsLoading(true)
     try {
-      // 1. Charger le livre
       const bookRes = await axios.get(`http://localhost:3000/books/${id}`)
       setBook(bookRes.data)
       
-      // 2. Charger les ventes associées à ce livre
-      const salesRes = await axios.get(`http://localhost:3000/sales/book/${id}`)
+      // CORRECTION : Utilisation de la query string ?bookId=
+      const salesRes = await axios.get(`http://localhost:3000/sales?bookId=${id}`)
       setSales(salesRes.data)
     } catch (err) {
-      console.error("Erreur lors du chargement :", err)
+      console.error(err)
     } finally {
       setIsLoading(false)
     }

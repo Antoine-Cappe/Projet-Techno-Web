@@ -44,6 +44,10 @@ export class SalesRepository {
     return this.saleRepository.count({ where: { clientId: clientId as any } });
   }
 
+  async countByBookId(bookId: string): Promise<number> {
+    return this.saleRepository.count({ where: { bookId: bookId as any } });
+  }
+
   async findByClientId(clientId: string): Promise<SaleEntity[]> {
     return this.saleRepository.find({
       where: { clientId: clientId as any },
@@ -61,6 +65,14 @@ export class SalesRepository {
       where: { clientId: clientId as any },
       relations: ['book', 'book.author'], // Indispensable pour afficher le titre et l'auteur
       order: { date: 'DESC' }, // Les plus récents en premier
+    });
+  }
+
+  public async getSalesByBookId(bookId: string): Promise<SaleEntity[]> {
+    return this.saleRepository.find({
+      where: { bookId: bookId as any },
+      relations: ['client'], // Charge les infos du client (nom, prénom, photo)
+      order: { date: 'DESC' },
     });
   }
 }

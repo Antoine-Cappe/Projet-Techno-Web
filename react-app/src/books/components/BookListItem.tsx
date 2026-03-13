@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { BookModel, UpdateBookModel } from '../BookModel'
-import { Button, Card, Input, Space, Tag, Tooltip, Avatar, Modal } from 'antd' // Modal ajouté ici
+import { Button, Card, Input, Space, Tag, Tooltip, Avatar, Modal } from 'antd'
 import {
   CheckOutlined,
   CloseOutlined,
@@ -9,6 +9,7 @@ import {
   CalendarOutlined,
   UserOutlined,
   BookOutlined,
+  ShoppingCartOutlined, // Import de l'icône de vente
 } from '@ant-design/icons'
 import { Link } from '@tanstack/react-router'
 
@@ -21,7 +22,6 @@ interface BookListItemProps {
 export function BookListItem({ book, onDelete, onUpdate }: BookListItemProps) {
   const [title, setTitle] = useState(book.title)
   const [isEditing, setIsEditing] = useState(false)
-  // État pour gérer l'ouverture du modal de confirmation
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
 
   const onCancelEdit = () => {
@@ -57,7 +57,7 @@ export function BookListItem({ book, onDelete, onUpdate }: BookListItemProps) {
           <Avatar
             shape="square"
             size={64}
-            src={book.photoUrl}
+            src={book.photoUrl || undefined}
             icon={<BookOutlined />}
             style={{ flexShrink: 0, borderRadius: 8, backgroundColor: '#f5f5f5', color: '#4f46e5' }}
           />
@@ -80,7 +80,7 @@ export function BookListItem({ book, onDelete, onUpdate }: BookListItemProps) {
                 >
                   {book.title}
                 </Link>
-                <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
+                <div style={{ display: 'flex', gap: 8, marginTop: 6, flexWrap: 'wrap' }}>
                   <Tag
                     icon={<CalendarOutlined />}
                     color="default"
@@ -94,6 +94,14 @@ export function BookListItem({ book, onDelete, onUpdate }: BookListItemProps) {
                     style={{ borderRadius: 6, margin: 0 }}
                   >
                     {book.author.firstName} {book.author.lastName}
+                  </Tag>
+                  {/* AJOUT : Tag pour le nombre de ventes */}
+                  <Tag
+                    icon={<ShoppingCartOutlined />}
+                    color="green"
+                    style={{ borderRadius: 6, margin: 0 }}
+                  >
+                    {book.purchasedCount || 0} vendus
                   </Tag>
                 </div>
               </div>
@@ -138,7 +146,7 @@ export function BookListItem({ book, onDelete, onUpdate }: BookListItemProps) {
               type="text"
               danger
               icon={<DeleteOutlined />}
-              onClick={() => setIsDeleteModalOpen(true)} // Ouvre le modal
+              onClick={() => setIsDeleteModalOpen(true)}
               shape="circle"
               size="small"
             />
@@ -146,7 +154,6 @@ export function BookListItem({ book, onDelete, onUpdate }: BookListItemProps) {
         </Space>
       </Card>
 
-      {/* Modal de confirmation calqué sur AuthorListItem */}
       <Modal
         title="Confirm deletion"
         open={isDeleteModalOpen}
@@ -159,7 +166,7 @@ export function BookListItem({ book, onDelete, onUpdate }: BookListItemProps) {
         okButtonProps={{ danger: true }}
       >
         <p>
-          Are you sure you want to delete {book.title}?
+          Are you sure you want to delete <strong>{book.title}</strong>?
         </p>
       </Modal>
     </>

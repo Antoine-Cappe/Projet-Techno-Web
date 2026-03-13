@@ -1,12 +1,30 @@
 import { useEffect, useState } from 'react'
-import { Avatar, Breadcrumb, Button, Card, Input, Skeleton, Space, Table, Typography } from 'antd'
-import { CheckOutlined, CloseOutlined, EditOutlined, UserOutlined } from '@ant-design/icons'
+import {
+  Avatar,
+  Breadcrumb,
+  Button,
+  Card,
+  Input,
+  Skeleton,
+  Space,
+  Table,
+  Typography,
+} from 'antd'
+import {
+  CheckOutlined,
+  CloseOutlined,
+  EditOutlined,
+  UserOutlined,
+} from '@ant-design/icons'
 import { Link } from '@tanstack/react-router'
 import axios from 'axios'
 import type { ClientModel, UpdateClientModel } from '../ClientModel'
 
+const { Title, Text } = Typography
+
 interface ClientDetailsProps { id: string }
 
+// Définition de la structure d'une vente pour le tableau
 interface SaleRecord {
   id: string
   date: string
@@ -20,8 +38,9 @@ interface SaleRecord {
 export function ClientDetails({ id }: ClientDetailsProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [client, setClient] = useState<ClientModel | null>(null)
-  const [sales, setSales] = useState<SaleRecord[]>([])
+  const [sales, setSales] = useState<SaleRecord[]>([]) // État pour les achats
   const [isEditing, setIsEditing] = useState(false)
+  
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
@@ -30,21 +49,27 @@ export function ClientDetails({ id }: ClientDetailsProps) {
   const loadClient = () => {
     setIsLoading(true)
     axios.get<ClientModel>(`http://localhost:3000/clients/${id}`)
-      .then(res => {
-        setClient(res.data); setFirstName(res.data.firstName);
-        setLastName(res.data.lastName); setEmail(res.data.email ?? '');
-        setPhoto(res.data.photo ?? '');
+      .then(response => {
+        setClient(response.data)
+        setFirstName(response.data.firstName)
+        setLastName(response.data.lastName)
+        setEmail(response.data.email ?? '')
+        setPhoto(response.data.photo ?? '')
       })
       .finally(() => setIsLoading(false))
   }
 
+  // AJOUT : Charger les achats du client
   const loadSales = () => {
-    // Note: On filtre par clientId dans l'URL
     axios.get<SaleRecord[]>(`http://localhost:3000/sales?clientId=${id}`)
-      .then(res => setSales(res.data))
+      .then(response => setSales(response.data))
+      .catch(err => console.error("Erreur chargement ventes", err))
   }
 
-  useEffect(() => { loadClient(); loadSales(); }, [id])
+  useEffect(() => {
+    loadClient()
+    loadSales() // On charge les deux au montage
+  }, [id])
 
   const saveEdit = () => {
     axios.patch(`http://localhost:3000/clients/${id}`, { firstName, lastName, email, photo })
@@ -53,6 +78,34 @@ export function ClientDetails({ id }: ClientDetailsProps) {
 
   if (isLoading) return <Skeleton active paragraph={{ rows: 6 }} />
 
+  // Définition des colonnes du tableau des achats
+  const bookColumns = [
+    {
+      title: 'Livre',
+      key: 'title',
+      render: (_: any, record: SaleRecord) => (
+        <Link to="/books/$bookId" params={{ bookId: record.book.id }} style={{ fontWeight: 500 }}>
+          {record.book.title}
+        </Link>
+      ),
+    },
+    {
+      title: 'Auteur',
+      key: 'author',
+      render: (_: any, record: SaleRecord) => (
+        <Link to="/authors/$authorId" params={{ authorId: record.book.author.id }}>
+          {record.book.author.firstName} {record.book.author.lastName}
+        </Link>
+      ),
+    },
+    {
+      title: "Date d'achat",
+      dataIndex: 'date',
+      key: 'date',
+      render: (date: string) => new Date(date).toLocaleDateString('fr-FR'),
+    },
+  ]
+
   return (
     <div>
       <Breadcrumb style={{ marginBottom: 24 }} items={[
@@ -60,35 +113,43 @@ export function ClientDetails({ id }: ClientDetailsProps) {
         { title: client ? `${client.firstName} ${client.lastName}` : '...' },
       ]} />
 
+      {/* Carte de Profil */}
       <Card style={{ borderRadius: 12, marginBottom: 24 }}>
-        <Space size={20} align="start">
+        <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
           <Avatar size={80} src={client?.photo} icon={<UserOutlined />} />
           {isEditing ? (
-            <Space direction="vertical">
+            <Space direction="vertical" style={{ flex: 1 }}>
               <Input value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="Prénom" />
               <Input value={lastName} onChange={e => setLastName(e.target.value)} placeholder="Nom" />
-              <Space><Button type="primary" onClick={saveEdit}>Sauvegarder</Button>
-              <Button onClick={() => setIsEditing(false)}>Annuler</Button></Space>
+              <Input value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" />
+              <Input value={photo} onChange={e => setPhoto(e.target.value)} placeholder="Photo URL" />
+              <Space>
+                <Button type="primary" onClick={saveEdit}>Sauvegarder</Button>
+                <Button onClick={() => setIsEditing(false)}>Annuler</Button>
+              </Space>
             </Space>
           ) : (
-            <div>
-              <Title level={2} style={{ margin: 0 }}>{client?.firstName} {client?.lastName} 
+            <div style={{ flex: 1 }}>
+              <Title level={2} style={{ margin: 0 }}>
+                {client?.firstName} {client?.lastName}
                 <Button type="text" icon={<EditOutlined />} onClick={() => setIsEditing(true)} />
               </Title>
-              <Text type="secondary">{client?.email}</Text>
+              {client?.email && <Text type="secondary">{client.email}</Text>}
             </div>
           )}
-        </Space>
+        </div>
       </Card>
 
-      <Card title="Livres achetés">
-        <Table dataSource={sales} rowKey="id" pagination={false} columns={[
-          { title: 'Livre', render: (text, record) => <Link to="/books/$bookId" params={{bookId: record.book.id}}>{record.book.title}</Link> },
-          { title: 'Auteur', render: (text, record) => `${record.book.author.firstName} ${record.book.author.lastName}` },
-          { title: "Date d'achat", dataIndex: 'date', render: d => new Date(d).toLocaleDateString() },
-        ]} />
+      {/* AJOUT : Tableau des Achats */}
+      <Card title="Historique des achats" style={{ borderRadius: 12 }}>
+        <Table<SaleRecord>
+          dataSource={sales}
+          columns={bookColumns}
+          rowKey="id"
+          pagination={false}
+          locale={{ emptyText: "Ce client n'a pas encore effectué d'achats." }}
+        />
       </Card>
     </div>
   )
 }
-const { Title, Text } = Typography;

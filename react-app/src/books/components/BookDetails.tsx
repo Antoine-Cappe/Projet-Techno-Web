@@ -65,7 +65,7 @@ export const BookDetails = ({ id }: BookDetailsProps) => {
         style={{ borderRadius: 12, border: '1px solid #e5e7eb', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}
       >
         <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
-          {/* Section Image - Nettoyée */}
+          {/* Section Image */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'center' }}>
             <img
               src={book.photoUrl || 'https://via.placeholder.com/200x300?text=No+Cover'}
@@ -77,7 +77,6 @@ export const BookDetails = ({ id }: BookDetailsProps) => {
                 objectFit: 'cover' 
               }}
             />
-            {/* Bouton discret pour modifier l'image sans afficher l'URL */}
             <Button 
               type="text" 
               icon={<EditOutlined />} 
@@ -147,6 +146,7 @@ export const BookDetails = ({ id }: BookDetailsProps) => {
 
             <Divider />
 
+            {/* Liste des acheteurs avec Navigation corrigée */}
             <Title level={4}><ShoppingCartOutlined /> Clients ayant acheté ce livre</Title>
             <List
               itemLayout="horizontal"
@@ -162,9 +162,12 @@ export const BookDetails = ({ id }: BookDetailsProps) => {
                       />
                     }
                     title={
-                      <Text strong>
-                        {sale.client?.firstName} {sale.client?.lastName}
-                      </Text>
+                      /* Navigation vers la fiche client */
+                      <Link to="/clients/$clientId" params={{ clientId: sale.client?.id }}>
+                        <Text strong style={{ color: '#1890ff', cursor: 'pointer' }}>
+                          {sale.client?.firstName} {sale.client?.lastName}
+                        </Text>
+                      </Link>
                     }
                     description={
                       <Space>

@@ -134,42 +134,8 @@ function App() {
             </Card>
           </Link>
         </Col>
-
-        <Col xs={24} sm={12} lg={8}>
-          <Link to="/sales">
-            <Card
-              hoverable
-              style={{
-                borderRadius: 12,
-                border: '1px solid #e5e7eb',
-                height: '100%',
-              }}
-            >
-              <div
-                style={{
-                  width: 48,
-                  height: 48,
-                  borderRadius: 12,
-                  background: 'linear-gradient(135deg, #dc2626 0%, #f87171 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  marginBottom: 16,
-                }}
-              >
-                <ShoppingOutlined style={{ fontSize: 22, color: '#fff' }} />
-              </div>
-              <Title level={4} style={{ margin: 0 }}>
-                Sales
-              </Title>
-              <Paragraph style={{ color: '#64748b', marginTop: 8, marginBottom: 0 }}>
-                Track and manage all your sales transactions and revenue reports.
-              </Paragraph>
-            </Card>
-          </Link>
-        </Col>
       </Row>
-
+      
       <Card
         style={{
           marginTop: 32,

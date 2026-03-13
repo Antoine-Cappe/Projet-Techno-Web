@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, Param, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common'; // Ajoute Get et Query
 import { SalesRepository } from './sales.repository';
 import { CreateSaleDto } from './dtos/sale.dto';
 
@@ -6,20 +6,17 @@ import { CreateSaleDto } from './dtos/sale.dto';
 export class SalesController {
   constructor(private readonly salesRepository: SalesRepository) {}
 
-  @Post()
-  async createSale(@Body() dto: CreateSaleDto) {
-    console.log('[SALES] Tentative de création de vente :', dto);
-    return this.salesRepository.createSale(dto);
+  // AJOUT : Route pour lister les ventes (filtrables par client)
+  @Get()
+  public async getSales(@Query('bookId') bookId?: string) {
+    if (bookId) {
+      return this.salesRepository.getSalesByBookId(bookId);
+    }
+    return []; // Ou retourner toutes les ventes
   }
 
-  @Get()
-  async getSales(@Query('clientId') clientId?: string) {
-    if (clientId) {
-      return this.salesRepository.getSalesByClientId(clientId);
-    }
-    // Correction : on appelle la méthode findAll du repository
-    return this.salesRepository.findAll({ 
-      relations: ['book', 'client'] 
-    });
+  @Post()
+  public async createSale(@Body() createSaleDto: CreateSaleDto) {
+    return this.salesRepository.createSale(createSaleDto);
   }
 }
