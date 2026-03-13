@@ -13,46 +13,42 @@ export class SalesRepository {
 
   async createSale(dto: CreateSaleDto): Promise<SaleEntity> {
     const sale = this.saleRepository.create({
-        ...dto,
-        date: new Date(dto.date)
+      clientId: dto.clientId,
+      bookId: dto.bookId,
+      date: new Date(dto.date),
     });
     return this.saleRepository.save(sale);
   }
 
   async findByBookId(bookId: string): Promise<SaleEntity[]> {
-    console.log(`[DB] 🔍 Recherche des ventes pour le livre ID : ${bookId}`);
-    
-    const sales = await this.saleRepository.find({
-      // On cherche via l'objet relation 'book' plutôt que la colonne 'bookId'
-      where: { 
-        book: { id: bookId as any } 
-      },
-      relations: { 
-        client: true 
-      },
-      order: { 
-        date: 'DESC' 
-      }
-    });
+    console.log(`[DB] 🔍 Recherche pour bookId : ${bookId}`);
 
-    if (sales.length > 0) {
-      console.log(`[DB] ✅ Succès : ${sales.length} vente(s) trouvée(s). Premier client : ${sales[0].client?.firstName}`);
-    } else {
-      console.log(`[DB] ❌ Échec : Aucune vente trouvée pour cet ID dans la table 'sales'.`);
+    // On utilise LOWER pour éviter les problèmes de casse dans SQLite
+    const sales = await this.saleRepository
+      .createQueryBuilder('sale')
+      .leftJoinAndSelect('sale.client', 'client')
+      .where('LOWER(sale.book_id) = LOWER(:bookId)', { bookId })
+      .orderBy('sale.date', 'DESC')
+      .getMany();
+
+    if (sales.length === 0) {
+      // LOG DE SECOURS : affiche la première ligne de la table pour comparer les IDs
+      const rawData = await this.saleRepository.query('SELECT * FROM sales LIMIT 1');
+      console.log('[DB] DEBUG - Contenu brut de la table sales :', rawData);
     }
 
     return sales;
   }
 
   async countByClientId(clientId: string): Promise<number> {
-    return this.saleRepository.count({ where: { clientId } });
+    return this.saleRepository.count({ where: { clientId: clientId as any } });
   }
 
   async findByClientId(clientId: string): Promise<SaleEntity[]> {
     return this.saleRepository.find({
-      where: { clientId },
+      where: { clientId: clientId as any },
       relations: { book: { author: true } },
-      order: { date: 'DESC' }
+      order: { date: 'DESC' },
     });
   }
 }

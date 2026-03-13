@@ -7,6 +7,7 @@ export class SaleEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  // On garde les colonnes mais on précise qu'elles pointent sur le même champ que les relations
   @Column({ name: 'client_id', type: 'uuid' })
   clientId: string;
 
