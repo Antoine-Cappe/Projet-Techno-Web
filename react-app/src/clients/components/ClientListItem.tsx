@@ -1,20 +1,16 @@
-import type { ReactElement } from 'react'
 import { useState } from 'react'
 import { Avatar, Button, Card, Modal, Tag, Tooltip } from 'antd'
 import { DeleteOutlined, UserOutlined, BookOutlined } from '@ant-design/icons'
 import { Link } from '@tanstack/react-router'
-import type { AuthorModel } from '../AuthorModel'
+import type { ClientModel } from '../ClientModel'
 
-interface AuthorListItemProps {
-  author: AuthorModel
+interface ClientListItemProps {
+  client: ClientModel
   onDelete: (id: string) => void
 }
 
-export function AuthorListItem({
-  author,
-  onDelete,
-}: AuthorListItemProps): ReactElement {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
+export function ClientListItem({ client, onDelete }: ClientListItemProps) {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
   return (
     <>
@@ -40,7 +36,7 @@ export function AuthorListItem({
         >
           <Avatar
             size={48}
-            src={author.photoUrl}
+            src={client.photo}
             icon={<UserOutlined />}
             style={{
               backgroundColor: '#e0e7ff',
@@ -50,25 +46,25 @@ export function AuthorListItem({
           />
           <div>
             <Link
-              to="/authors/$authorId"
-              params={{ authorId: author.id }}
+              to="/clients/$clientId"
+              params={{ clientId: client.id }}
               style={{ fontSize: 16, fontWeight: 600 }}
             >
-              {author.firstName} {author.lastName}
+              {client.firstName} {client.lastName}
             </Link>
             <div style={{ marginTop: 6 }}>
               <Tag
                 icon={<BookOutlined />}
-                color="purple"
+                color="green"
                 style={{ borderRadius: 6, margin: 0 }}
               >
-                {author.booksCount ?? 0} livre(s) écrit(s)
+                {client.purchasedBooksCount} livre(s) acheté(s)
               </Tag>
             </div>
           </div>
         </div>
 
-        <Tooltip title="Delete">
+        <Tooltip title="Supprimer">
           <Button
             type="text"
             danger
@@ -80,18 +76,20 @@ export function AuthorListItem({
       </Card>
 
       <Modal
-        title="Confirm deletion"
+        title="Confirmer la suppression"
         open={isDeleteModalOpen}
         onOk={() => {
-          onDelete(author.id)
+          onDelete(client.id)
           setIsDeleteModalOpen(false)
         }}
         onCancel={() => setIsDeleteModalOpen(false)}
-        okText="Delete"
+        okText="Supprimer"
+        cancelText="Annuler"
         okButtonProps={{ danger: true }}
       >
         <p>
-          Are you sure you want to delete {author.firstName} {author.lastName}?
+          Êtes-vous sûr de vouloir supprimer {client.firstName}{' '}
+          {client.lastName} ?
         </p>
       </Modal>
     </>

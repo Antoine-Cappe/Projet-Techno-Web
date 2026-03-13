@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Typography } from 'antd'
+import { Breadcrumb, Typography } from 'antd'
 import { useBookProvider } from '../providers/useBookProvider'
 import { BookListItem } from './BookListItem'
 import { CreateBookModal } from './CreateBookModal'
@@ -16,6 +16,7 @@ export function BookList() {
 
   return (
     <div>
+      <Breadcrumb style={{ marginBottom: 16 }} items={[{ title: 'Books' }]} />
       <div
         style={{
           display: 'flex',
