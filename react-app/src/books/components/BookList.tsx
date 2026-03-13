@@ -25,7 +25,7 @@ export function BookList() {
         }}
       >
         <Title level={2} style={{ margin: 0 }}>
-          Books
+          Livres
         </Title>
         <CreateBookModal onCreate={createBook} />
       </div>

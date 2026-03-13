@@ -22,10 +22,10 @@ export function Layout({ children }: LayoutProps) {
 
   const items = [
     { label: <Link to="/">Home</Link>, key: '/', icon: <HomeOutlined /> },
-    { label: <Link to="/books">Books</Link>, key: '/books', icon: <BookOutlined /> },
-    { label: <Link to="/authors">Authors</Link>, key: '/authors', icon: <UserOutlined /> },
+    { label: <Link to="/books">Livres</Link>, key: '/books', icon: <BookOutlined /> },
+    { label: <Link to="/authors">Auteurs</Link>, key: '/authors', icon: <UserOutlined /> },
     { label: <Link to="/clients">Clients</Link>, key: '/clients', icon: <TeamOutlined /> },
-    { label: <Link to="/about">About</Link>, key: '/about', icon: <InfoOutlined /> },
+    { label: <Link to="/about">A propos</Link>, key: '/about', icon: <InfoOutlined /> },
   ]
 
   return (
@@ -54,7 +54,7 @@ export function Layout({ children }: LayoutProps) {
               whiteSpace: 'nowrap',
             }}
           >
-            Babel&apos;s Library
+            La bibliothèque de Babel
           </span>
         </Link>
         <Menu

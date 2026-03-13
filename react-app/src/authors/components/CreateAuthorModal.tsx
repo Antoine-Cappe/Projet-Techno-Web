@@ -31,13 +31,13 @@ export function CreateAuthorModal({ onCreate }: CreateAuthorModalProps) {
         onClick={() => setIsOpen(true)}
         style={{ borderRadius: 10 }}
       >
-        Add Author
+        Ajouter un auteur
       </Button>
       <Modal
-        title="Add a new author"
+        title="Ajouter un nouvel auteur"
         open={isOpen}
         onCancel={onClose}
-        okText="Create"
+        okText="Créer"
         onOk={() => {
           onCreate({ firstName, lastName, photoUrl: photo || undefined })
           onClose()
@@ -46,25 +46,25 @@ export function CreateAuthorModal({ onCreate }: CreateAuthorModalProps) {
       >
         <Space direction="vertical" style={{ width: '100%', marginTop: 16 }} size={16}>
           <div>
-            <Text strong style={{ display: 'block', marginBottom: 6 }}>First Name</Text>
+            <Text strong style={{ display: 'block', marginBottom: 6 }}>Prénom</Text>
             <Input
-              placeholder="Enter first name"
+              placeholder="Entrez le prénom"
               value={firstName}
               onChange={e => setFirstName(e.target.value)}
               size="large"
             />
           </div>
           <div>
-            <Text strong style={{ display: 'block', marginBottom: 6 }}>Last Name</Text>
+            <Text strong style={{ display: 'block', marginBottom: 6 }}>Nom de famille</Text>
             <Input
-              placeholder="Enter last name"
+              placeholder="Entrez le nom de famille"
               value={lastName}
               onChange={e => setLastName(e.target.value)}
               size="large"
             />
           </div>
           <div>
-            <Text strong style={{ display: 'block', marginBottom: 6 }}>Photo URL (optional)</Text>
+            <Text strong style={{ display: 'block', marginBottom: 6 }}>Photo URL (optionnel)</Text>
             <Input
               placeholder="https://example.com/photo.jpg"
               value={photo}

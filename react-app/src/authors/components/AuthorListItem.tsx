@@ -63,7 +63,7 @@ export function AuthorListItem({ author, onDelete }: AuthorListItemProps): React
           </div>
         </div>
 
-        <Tooltip title="Delete">
+        <Tooltip title="Supprimer">
           <Button
             type="text"
             danger
@@ -75,7 +75,7 @@ export function AuthorListItem({ author, onDelete }: AuthorListItemProps): React
       </Card>
 
       <Modal
-        title="Confirm deletion"
+        title="Confirmer la suppression"
         open={isDeleteModalOpen}
         onOk={() => {
           onDelete(author.id)
@@ -86,7 +86,7 @@ export function AuthorListItem({ author, onDelete }: AuthorListItemProps): React
         okButtonProps={{ danger: true }}
       >
         <p>
-          Are you sure you want to delete {author.firstName} {author.lastName}?
+          Êtes-vous sûr de vouloir supprimer {author.firstName} {author.lastName}?
         </p>
       </Modal>
     </>

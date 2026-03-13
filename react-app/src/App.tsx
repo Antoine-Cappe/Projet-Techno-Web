@@ -17,7 +17,7 @@ function App() {
         }}
       >
         <Title style={{ color: '#fff', margin: 0, fontSize: 36 }}>
-          Welcome to Babel&apos;s Library
+          Bienvenue à la bibliothèque de Babel
         </Title>
         <Paragraph
           style={{
@@ -28,7 +28,7 @@ function App() {
             maxWidth: 600,
           }}
         >
-          Manage your collection of books, authors, clients, and sales in one place.
+          Gérez votre collection de livres, d'auteurs, de clients et de ventes en un seul endroit.
         </Paragraph>
       </div>
 
@@ -58,10 +58,10 @@ function App() {
                 <BookOutlined style={{ fontSize: 22, color: '#fff' }} />
               </div>
               <Title level={4} style={{ margin: 0 }}>
-                Books
+                Livres
               </Title>
               <Paragraph style={{ color: '#64748b', marginTop: 8, marginBottom: 0 }}>
-                Browse, add, and manage your book collection with full CRUD operations.
+                Parcourez, ajoutez et gérez votre collection de livres avec des opérations CRUD complètes.
               </Paragraph>
             </Card>
           </Link>
@@ -92,10 +92,10 @@ function App() {
                 <UserOutlined style={{ fontSize: 22, color: '#fff' }} />
               </div>
               <Title level={4} style={{ margin: 0 }}>
-                Authors
+                Auteurs
               </Title>
               <Paragraph style={{ color: '#64748b', marginTop: 8, marginBottom: 0 }}>
-                View author profiles, their published works, and sales statistics.
+                Consultez les profils des auteurs, leurs œuvres publiées et les statistiques de vente.
               </Paragraph>
             </Card>
           </Link>
@@ -129,7 +129,7 @@ function App() {
                 Clients
               </Title>
               <Paragraph style={{ color: '#64748b', marginTop: 8, marginBottom: 0 }}>
-                Manage your client database and track their reading preferences.
+                Gérez votre base de données de clients et suivez leurs préférences de lecture.
               </Paragraph>
             </Card>
           </Link>
@@ -148,10 +148,10 @@ function App() {
           <RocketOutlined style={{ fontSize: 24, color: '#4f46e5' }} />
           <div>
             <Title level={5} style={{ margin: 0 }}>
-              Getting Started
+              C'est parti !
             </Title>
             <Paragraph style={{ color: '#64748b', margin: 0 }}>
-              Select a section above to start managing your library. Use the navigation bar to switch between sections at any time.
+              Sélectionnez une section ci-dessus pour commencer à gérer votre bibliothèque. Utilisez la barre de navigation pour basculer entre les sections à tout moment.
             </Paragraph>
           </div>
         </div>

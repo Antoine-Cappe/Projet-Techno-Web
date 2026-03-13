@@ -25,7 +25,7 @@ export function AuthorList(): ReactElement {
         }}
       >
         <Title level={2} style={{ margin: 0 }}>
-          Authors
+          Auteurs
         </Title>
         <CreateAuthorModal onCreate={createAuthor} />
       </div>

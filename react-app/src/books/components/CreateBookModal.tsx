@@ -41,10 +41,10 @@ export function CreateBookModal({ onCreate }: CreateBookModalProps) {
         onClick={() => setIsOpen(true)}
         style={{ borderRadius: 10 }}
       >
-        Add Book
+        Ajouter un livre
       </Button>
       <Modal
-        title="Add a new book"
+        title="Ajouter un nouveau livre"
         open={isOpen}
         onCancel={onClose}
         onOk={() => {
@@ -54,7 +54,7 @@ export function CreateBookModal({ onCreate }: CreateBookModalProps) {
             onClose()
           }
         }}
-        okText="Create"
+        okText="Créer"
         okButtonProps={{
           // Le bouton est activé si on a un auteur, un titre et une année
           disabled: !authorId || !title?.length || !yearPublished,
@@ -62,18 +62,18 @@ export function CreateBookModal({ onCreate }: CreateBookModalProps) {
       >
         <Space direction="vertical" style={{ width: '100%', marginTop: 16 }} size={16}>
           <div>
-            <Text strong style={{ display: 'block', marginBottom: 6 }}>Title</Text>
+            <Text strong style={{ display: 'block', marginBottom: 6 }}>Titre</Text>
             <Input
-              placeholder="Enter book title"
+              placeholder="Entrez le titre du livre"
               value={title}
               onChange={e => setTitle(e.target.value)}
               size="large"
             />
           </div>
           <div>
-            <Text strong style={{ display: 'block', marginBottom: 6 }}>Author</Text>
+            <Text strong style={{ display: 'block', marginBottom: 6 }}>Auteur</Text>
             <Select
-              placeholder="Select an author"
+              placeholder="Sélectionnez un auteur"
               style={{ width: '100%' }}
               size="large"
               options={authors.map(author => ({
@@ -85,7 +85,7 @@ export function CreateBookModal({ onCreate }: CreateBookModalProps) {
             />
           </div>
           <div>
-            <Text strong style={{ display: 'block', marginBottom: 6 }}>Year Published</Text>
+            <Text strong style={{ display: 'block', marginBottom: 6 }}>Année de publication</Text>
             <Input
               type="number"
               placeholder="e.g. 2026"
@@ -96,9 +96,9 @@ export function CreateBookModal({ onCreate }: CreateBookModalProps) {
           </div>
           {/* Nouveau champ pour la Photo URL */}
           <div>
-            <Text strong style={{ display: 'block', marginBottom: 6 }}>Photo URL (Optional)</Text>
+            <Text strong style={{ display: 'block', marginBottom: 6 }}>Photo URL (Optionnel)</Text>
             <Input
-              placeholder="Paste the image URL here"
+              placeholder="Collez l'URL de la photo du livre"
               value={photoUrl}
               onChange={e => setPhotoUrl(e.target.value)}
               size="large"

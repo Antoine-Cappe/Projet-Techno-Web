@@ -166,7 +166,7 @@ export function BookListItem({ book, onDelete, onUpdate }: BookListItemProps) {
         okButtonProps={{ danger: true }}
       >
         <p>
-          Are you sure you want to delete <strong>{book.title}</strong>?
+          Vous êtes sûr de vouloir supprimer <strong>{book.title}</strong>?
         </p>
       </Modal>
     </>

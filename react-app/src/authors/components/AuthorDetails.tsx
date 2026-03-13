@@ -32,7 +32,7 @@ interface AuthorDetailsProps {
 /* Colonnes du tableau de livres : titre cliquable, année de publication */
 const bookColumns = [
   {
-    title: 'Title',
+    title: 'Titre',
     dataIndex: 'title',
     key: 'title',
     render: (title: string, record: AuthorDetailBook): ReactElement => (
@@ -42,7 +42,7 @@ const bookColumns = [
     ),
   },
   {
-    title: 'Year',
+    title: 'Année de publication',
     dataIndex: 'yearPublished',
     key: 'yearPublished',
   },
@@ -100,7 +100,7 @@ export function AuthorDetails({ id }: AuthorDetailsProps): ReactElement {
       <Breadcrumb
         style={{ marginBottom: 24 }}
         items={[
-          { title: <Link to="/authors">Authors</Link> },
+          { title: <Link to="/authors">Auteurs</Link> },
           {
             title: author ? `${author.firstName} ${author.lastName}` : '...',
           },
@@ -149,10 +149,10 @@ export function AuthorDetails({ id }: AuthorDetailsProps): ReactElement {
               />
               <Space>
                 <Button type="primary" icon={<CheckOutlined />} onClick={saveEdit}>
-                  Save
+                  Enregistrer
                 </Button>
                 <Button icon={<CloseOutlined />} onClick={cancelEdit}>
-                  Cancel
+                  Annuler
                 </Button>
               </Space>
             </Space>
@@ -185,7 +185,7 @@ export function AuthorDetails({ id }: AuthorDetailsProps): ReactElement {
           >
             {/* Nombre moyen de ventes des livres de cet auteur */}
             <Statistic
-              title="Average sales per book"
+              title="Nombre moyen de ventes"
               value={author?.averageSales ?? 0}
               prefix={<BookOutlined style={{ color: '#4f46e5' }} />}
               precision={1}
@@ -201,7 +201,7 @@ export function AuthorDetails({ id }: AuthorDetailsProps): ReactElement {
             }}
           >
             <Statistic
-              title="Books written"
+              title="Livres écrits"
               value={author?.books?.length ?? 0}
               prefix={<BookOutlined style={{ color: '#7c3aed' }} />}
             />
@@ -218,7 +218,7 @@ export function AuthorDetails({ id }: AuthorDetailsProps): ReactElement {
         }}
       >
         <Typography.Title level={4} style={{ marginTop: 0 }}>
-          Books written
+          Livre écrit
         </Typography.Title>
         <Table<AuthorDetailBook>
           dataSource={author?.books ?? []}

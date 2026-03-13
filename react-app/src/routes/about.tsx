@@ -35,7 +35,7 @@ function About() {
         }}
       >
         <Title style={{ color: '#fff', margin: 0, fontSize: 32 }}>
-          About Babel&apos;s Library
+          A propos de la bibliothèque de Babel
         </Title>
         <Paragraph
           style={{
@@ -46,7 +46,7 @@ function About() {
             maxWidth: 600,
           }}
         >
-          A modern library management application built as a web technologies project.
+          Une application de gestion de bibliothèque moderne construite comme projet de technologies web.
         </Paragraph>
       </div>
 
@@ -69,14 +69,14 @@ function About() {
               >
                 <DatabaseOutlined style={{ fontSize: 18, color: '#fff' }} />
               </div>
-              <Title level={4} style={{ margin: 0 }}>Features</Title>
+              <Title level={4} style={{ margin: 0 }}>Fonctionnalités</Title>
             </div>
             <ul style={{ color: '#475569', lineHeight: 2.2, paddingLeft: 20, margin: 0 }}>
-              <li>Full CRUD operations for books and authors</li>
-              <li>Author profiles with photo and sales statistics</li>
-              <li>Inline editing with real-time updates</li>
-              <li>Type-safe routing with TanStack Router</li>
-              <li>Responsive design with Ant Design components</li>
+              <li>Opérations CRUD complètes pour les livres et les auteurs</li>
+              <li>Profils d'auteurs avec photo et statistiques de ventes</li>
+              <li>Édition en ligne avec mises à jour en temps réel</li>
+              <li>Routage sécurisé par type avec TanStack Router</li>
+              <li>Design responsive avec les composants Ant Design</li>
             </ul>
           </Card>
         </Col>
