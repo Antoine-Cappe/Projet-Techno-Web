@@ -6,37 +6,19 @@ import {
   UpdateBookModel,
 } from './book.model';
 import { BookRepository } from './book.repository';
-import { SalesRepository } from '../sales/sales.repository';
 
 @Injectable()
 export class BookService {
-  constructor(
-    private readonly bookRepository: BookRepository,
-    private readonly salesRepository: SalesRepository,
-  ) {}
+  constructor(private readonly bookRepository: BookRepository) {}
 
   public async getAllBooks(
     input?: FilterBooksModel,
   ): Promise<[BookModel[], number]> {
-    const [books, totalCount] = await this.bookRepository.getAllBooks(input);
-    const booksWithCount = await Promise.all(
-      books.map(async (book) => ({
-        ...book,
-        purchasedCount: await this.salesRepository.countByBookId(book.id),
-      })),
-    );
-    return [booksWithCount, totalCount];
+    return this.bookRepository.getAllBooks(input);
   }
 
   public async getBookById(id: string): Promise<BookModel | undefined> {
-    const book = await this.bookRepository.getBookById(id);
-    if (!book) {
-      return undefined;
-    }
-    return {
-      ...book,
-      purchasedCount: await this.salesRepository.countByBookId(book.id),
-    };
+    return this.bookRepository.getBookById(id);
   }
 
   public async createBook(book: CreateBookModel): Promise<BookModel> {

@@ -4,7 +4,6 @@ import {
   InfoOutlined,
   UserOutlined,
   TeamOutlined,
-  ShoppingCartOutlined,
 } from '@ant-design/icons'
 import { Layout as AntLayout, Menu } from 'antd'
 import type { ReactNode } from 'react'
@@ -22,31 +21,10 @@ export function Layout({ children }: LayoutProps) {
 
   const items = [
     { label: <Link to="/">Home</Link>, key: '/', icon: <HomeOutlined /> },
-    {
-      label: <Link to="/books">Books</Link>,
-      key: '/books',
-      icon: <BookOutlined />,
-    },
-    {
-      label: <Link to="/authors">Authors</Link>,
-      key: '/authors',
-      icon: <UserOutlined />,
-    },
-    {
-      label: <Link to="/clients">Clients</Link>,
-      key: '/clients',
-      icon: <TeamOutlined />,
-    },
-    {
-      label: <Link to="/sales">Ventes</Link>,
-      key: '/sales',
-      icon: <ShoppingCartOutlined />,
-    },
-    {
-      label: <Link to="/about">About</Link>,
-      key: '/about',
-      icon: <InfoOutlined />,
-    },
+    { label: <Link to="/books">Books</Link>, key: '/books', icon: <BookOutlined /> },
+    { label: <Link to="/authors">Authors</Link>, key: '/authors', icon: <UserOutlined /> },
+    { label: <Link to="/clients">Clients</Link>, key: '/clients', icon: <TeamOutlined /> },
+    { label: <Link to="/about">About</Link>, key: '/about', icon: <InfoOutlined /> },
   ]
 
   return (
@@ -64,15 +42,7 @@ export function Layout({ children }: LayoutProps) {
           height: 64,
         }}
       >
-        <Link
-          to="/"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 10,
-            marginRight: 40,
-          }}
-        >
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, marginRight: 40 }}>
           <BookOutlined style={{ fontSize: 24, color: '#fff' }} />
           <span
             style={{

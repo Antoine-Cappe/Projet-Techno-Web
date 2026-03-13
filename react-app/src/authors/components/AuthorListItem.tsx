@@ -10,10 +10,7 @@ interface AuthorListItemProps {
   onDelete: (id: string) => void
 }
 
-export function AuthorListItem({
-  author,
-  onDelete,
-}: AuthorListItemProps): ReactElement {
+export function AuthorListItem({ author, onDelete }: AuthorListItemProps): ReactElement {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
 
   return (
@@ -35,9 +32,7 @@ export function AuthorListItem({
         }}
         hoverable
       >
-        <div
-          style={{ display: 'flex', alignItems: 'center', gap: 16, flex: 1 }}
-        >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, flex: 1 }}>
           <Avatar
             size={48}
             src={author.photoUrl}

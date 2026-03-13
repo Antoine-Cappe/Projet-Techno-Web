@@ -23,29 +23,10 @@ export class SalesRepository {
     return this.saleRepository.count({ where: { clientId } });
   }
 
-  async countByBookId(bookId: string): Promise<number> {
-    return this.saleRepository.count({ where: { bookId } });
-  }
-
   async findByClientId(clientId: string): Promise<SaleEntity[]> {
     return this.saleRepository.find({
       where: { clientId },
       relations: { book: { author: true } },
-      order: { date: 'DESC' }
-    });
-  }
-
-  async findByBookId(bookId: string): Promise<SaleEntity[]> {
-    return this.saleRepository.find({
-      where: { bookId },
-      relations: { client: true },
-      order: { date: 'DESC' }
-    });
-  }
-
-  async findAll(): Promise<SaleEntity[]> {
-    return this.saleRepository.find({
-      relations: { client: true, book: { author: true } },
       order: { date: 'DESC' }
     });
   }

@@ -46,35 +46,22 @@ function About() {
             maxWidth: 600,
           }}
         >
-          A modern library management application built as a web technologies
-          project.
+          A modern library management application built as a web technologies project.
         </Paragraph>
       </div>
 
       <Row gutter={[24, 24]}>
         <Col xs={24} md={12}>
           <Card
-            style={{
-              borderRadius: 12,
-              border: '1px solid #e5e7eb',
-              height: '100%',
-            }}
+            style={{ borderRadius: 12, border: '1px solid #e5e7eb', height: '100%' }}
           >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 12,
-                marginBottom: 16,
-              }}
-            >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
               <div
                 style={{
                   width: 40,
                   height: 40,
                   borderRadius: 10,
-                  background:
-                    'linear-gradient(135deg, #4f46e5 0%, #6366f1 100%)',
+                  background: 'linear-gradient(135deg, #4f46e5 0%, #6366f1 100%)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -82,18 +69,9 @@ function About() {
               >
                 <DatabaseOutlined style={{ fontSize: 18, color: '#fff' }} />
               </div>
-              <Title level={4} style={{ margin: 0 }}>
-                Features
-              </Title>
+              <Title level={4} style={{ margin: 0 }}>Features</Title>
             </div>
-            <ul
-              style={{
-                color: '#475569',
-                lineHeight: 2.2,
-                paddingLeft: 20,
-                margin: 0,
-              }}
-            >
+            <ul style={{ color: '#475569', lineHeight: 2.2, paddingLeft: 20, margin: 0 }}>
               <li>Full CRUD operations for books and authors</li>
               <li>Author profiles with photo and sales statistics</li>
               <li>Inline editing with real-time updates</li>
@@ -105,27 +83,15 @@ function About() {
 
         <Col xs={24} md={12}>
           <Card
-            style={{
-              borderRadius: 12,
-              border: '1px solid #e5e7eb',
-              height: '100%',
-            }}
+            style={{ borderRadius: 12, border: '1px solid #e5e7eb', height: '100%' }}
           >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 12,
-                marginBottom: 16,
-              }}
-            >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
               <div
                 style={{
                   width: 40,
                   height: 40,
                   borderRadius: 10,
-                  background:
-                    'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
+                  background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -133,9 +99,7 @@ function About() {
               >
                 <GithubOutlined style={{ fontSize: 18, color: '#fff' }} />
               </div>
-              <Title level={4} style={{ margin: 0 }}>
-                Tech Stack
-              </Title>
+              <Title level={4} style={{ margin: 0 }}>Tech Stack</Title>
             </div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
               {techStack.map(tech => (

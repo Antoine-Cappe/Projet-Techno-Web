@@ -23,11 +23,7 @@ import {
 } from '@ant-design/icons'
 import { Link } from '@tanstack/react-router'
 import axios from 'axios'
-import type {
-  AuthorDetailBook,
-  AuthorDetailModel,
-  UpdateAuthorModel,
-} from '../AuthorModel'
+import type { AuthorDetailBook, AuthorDetailModel, UpdateAuthorModel } from '../AuthorModel'
 
 interface AuthorDetailsProps {
   id: string
@@ -40,11 +36,7 @@ const bookColumns = [
     dataIndex: 'title',
     key: 'title',
     render: (title: string, record: AuthorDetailBook): ReactElement => (
-      <Link
-        to="/books/$bookId"
-        params={{ bookId: record.id }}
-        style={{ fontWeight: 500 }}
-      >
+      <Link to="/books/$bookId" params={{ bookId: record.id }} style={{ fontWeight: 500 }}>
         {title}
       </Link>
     ),
@@ -156,11 +148,7 @@ export function AuthorDetails({ id }: AuthorDetailsProps): ReactElement {
                 size="large"
               />
               <Space>
-                <Button
-                  type="primary"
-                  icon={<CheckOutlined />}
-                  onClick={saveEdit}
-                >
+                <Button type="primary" icon={<CheckOutlined />} onClick={saveEdit}>
                   Save
                 </Button>
                 <Button icon={<CloseOutlined />} onClick={cancelEdit}>

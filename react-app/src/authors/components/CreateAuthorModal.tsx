@@ -44,15 +44,9 @@ export function CreateAuthorModal({ onCreate }: CreateAuthorModalProps) {
         }}
         okButtonProps={{ disabled: !firstName?.length || !lastName?.length }}
       >
-        <Space
-          direction="vertical"
-          style={{ width: '100%', marginTop: 16 }}
-          size={16}
-        >
+        <Space direction="vertical" style={{ width: '100%', marginTop: 16 }} size={16}>
           <div>
-            <Text strong style={{ display: 'block', marginBottom: 6 }}>
-              First Name
-            </Text>
+            <Text strong style={{ display: 'block', marginBottom: 6 }}>First Name</Text>
             <Input
               placeholder="Enter first name"
               value={firstName}
@@ -61,9 +55,7 @@ export function CreateAuthorModal({ onCreate }: CreateAuthorModalProps) {
             />
           </div>
           <div>
-            <Text strong style={{ display: 'block', marginBottom: 6 }}>
-              Last Name
-            </Text>
+            <Text strong style={{ display: 'block', marginBottom: 6 }}>Last Name</Text>
             <Input
               placeholder="Enter last name"
               value={lastName}
@@ -72,9 +64,7 @@ export function CreateAuthorModal({ onCreate }: CreateAuthorModalProps) {
             />
           </div>
           <div>
-            <Text strong style={{ display: 'block', marginBottom: 6 }}>
-              Photo URL (optional)
-            </Text>
+            <Text strong style={{ display: 'block', marginBottom: 6 }}>Photo URL (optional)</Text>
             <Input
               placeholder="https://example.com/photo.jpg"
               value={photo}
