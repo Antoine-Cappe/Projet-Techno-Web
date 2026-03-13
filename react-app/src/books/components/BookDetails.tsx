@@ -22,7 +22,7 @@ import {
   CalendarOutlined, 
   ShoppingCartOutlined, 
   UserOutlined, 
-  PictureOutlined
+  EditOutlined 
 } from '@ant-design/icons'
 import { Link } from '@tanstack/react-router'
 import dayjs from 'dayjs'
@@ -56,7 +56,7 @@ export const BookDetails = ({ id }: BookDetailsProps) => {
       <Breadcrumb
         style={{ marginBottom: 24 }}
         items={[
-          { title: <Link to="/books">Books</Link> },
+          { title: <Link to="/books">Livres</Link> },
           { title: book.title },
         ]}
       />
@@ -65,7 +65,7 @@ export const BookDetails = ({ id }: BookDetailsProps) => {
         style={{ borderRadius: 12, border: '1px solid #e5e7eb', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}
       >
         <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
-          {/* Section Image */}
+          {/* Section Image - Nettoyée */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'center' }}>
             <img
               src={book.photoUrl || 'https://via.placeholder.com/200x300?text=No+Cover'}
@@ -77,19 +77,18 @@ export const BookDetails = ({ id }: BookDetailsProps) => {
                 objectFit: 'cover' 
               }}
             />
-            <div style={{ width: '100%' }}>
-              <Text type="secondary" style={{ fontSize: 12 }}>URL de l'image :</Text>
-              <Text 
-                editable={{ 
-                  icon: <PictureOutlined />,
-                  onChange: (val) => updateBook({ photoUrl: val }) 
-                }}
-                ellipsis={{ tooltip: book.photoUrl ?? '' }}
-                style={{ display: 'block', color: '#1890ff' }}
-              >
-                {book.photoUrl || 'Ajouter une URL'}
-              </Text>
-            </div>
+            {/* Bouton discret pour modifier l'image sans afficher l'URL */}
+            <Button 
+              type="text" 
+              icon={<EditOutlined />} 
+              size="small"
+              onClick={() => {
+                const newUrl = prompt("Collez l'URL de la nouvelle image :", book.photoUrl || "");
+                if (newUrl !== null) updateBook({ photoUrl: newUrl });
+              }}
+            >
+              Changer la couverture
+            </Button>
           </div>
 
           {/* Section Informations */}
