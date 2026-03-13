@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import axios from 'axios'
 import {
   Avatar,
   Breadcrumb,
@@ -11,20 +12,21 @@ import {
   Typography,
 } from 'antd'
 import {
-  CheckOutlined,
-  CloseOutlined,
   EditOutlined,
   UserOutlined,
 } from '@ant-design/icons'
 import { Link } from '@tanstack/react-router'
-import axios from 'axios'
+
+import type { ReactElement, ChangeEvent } from 'react'
+import type { AxiosResponse } from 'axios'
 import type { ClientModel, UpdateClientModel } from '../ClientModel'
 
 const { Title, Text } = Typography
 
-interface ClientDetailsProps { id: string }
+interface ClientDetailsProps { 
+  id: string 
+}
 
-// Définition de la structure d'une vente pour le tableau
 interface SaleRecord {
   id: string
   date: string
@@ -35,55 +37,62 @@ interface SaleRecord {
   }
 }
 
-export function ClientDetails({ id }: ClientDetailsProps) {
-  const [isLoading, setIsLoading] = useState(false)
+export function ClientDetails({ id }: ClientDetailsProps): ReactElement {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [client, setClient] = useState<ClientModel | null>(null)
-  const [sales, setSales] = useState<SaleRecord[]>([]) // État pour les achats
-  const [isEditing, setIsEditing] = useState(false)
+  const [sales, setSales] = useState<SaleRecord[]>([])
+  const [isEditing, setIsEditing] = useState<boolean>(false)
   
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [email, setEmail] = useState('')
-  const [photo, setPhoto] = useState('')
+  const [firstName, setFirstName] = useState<string>('')
+  const [lastName, setLastName] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [photo, setPhoto] = useState<string>('')
 
-  const loadClient = () => {
+  const loadClient = (): void => {
     setIsLoading(true)
     axios.get<ClientModel>(`http://localhost:3000/clients/${id}`)
-      .then(response => {
-        setClient(response.data)
-        setFirstName(response.data.firstName)
-        setLastName(response.data.lastName)
-        setEmail(response.data.email ?? '')
-        setPhoto(response.data.photo ?? '')
+      .then((response: AxiosResponse<ClientModel>): void => {
+        const data: ClientModel = response.data
+        setClient(data)
+        setFirstName(data.firstName)
+        setLastName(data.lastName)
+        setEmail(data.email ?? '')
+        setPhoto(data.photo ?? '')
       })
-      .finally(() => setIsLoading(false))
+      .finally((): void => setIsLoading(false))
   }
 
-  // AJOUT : Charger les achats du client
-  const loadSales = () => {
+  const loadSales = (): void => {
     axios.get<SaleRecord[]>(`http://localhost:3000/sales?clientId=${id}`)
-      .then(response => setSales(response.data))
-      .catch(err => console.error("Erreur chargement ventes", err))
+      .then((response: AxiosResponse<SaleRecord[]>): void => {
+        setSales(response.data)
+      })
+      .catch((err: unknown): void => {
+        console.error("Erreur chargement ventes", err)
+      })
   }
 
-  useEffect(() => {
+  useEffect((): void => {
     loadClient()
-    loadSales() // On charge les deux au montage
+    loadSales()
   }, [id])
 
-  const saveEdit = () => {
-    axios.patch(`http://localhost:3000/clients/${id}`, { firstName, lastName, email, photo })
-      .then(() => { loadClient(); setIsEditing(false); })
+  const saveEdit = (): void => {
+    const updateData: UpdateClientModel = { firstName, lastName, email, photo }
+    axios.patch(`http://localhost:3000/clients/${id}`, updateData)
+      .then((): void => { 
+        loadClient()
+        setIsEditing(false) 
+      })
   }
 
   if (isLoading) return <Skeleton active paragraph={{ rows: 6 }} />
 
-  // Définition des colonnes du tableau des achats
   const bookColumns = [
     {
       title: 'Livre',
       key: 'title',
-      render: (_: any, record: SaleRecord) => (
+      render: (_: unknown, record: SaleRecord): ReactElement => (
         <Link to="/books/$bookId" params={{ bookId: record.book.id }} style={{ fontWeight: 500 }}>
           {record.book.title}
         </Link>
@@ -92,7 +101,7 @@ export function ClientDetails({ id }: ClientDetailsProps) {
     {
       title: 'Auteur',
       key: 'author',
-      render: (_: any, record: SaleRecord) => (
+      render: (_: unknown, record: SaleRecord): ReactElement => (
         <Link to="/authors/$authorId" params={{ authorId: record.book.author.id }}>
           {record.book.author.firstName} {record.book.author.lastName}
         </Link>
@@ -102,7 +111,7 @@ export function ClientDetails({ id }: ClientDetailsProps) {
       title: "Date d'achat",
       dataIndex: 'date',
       key: 'date',
-      render: (date: string) => new Date(date).toLocaleDateString('fr-FR'),
+      render: (date: string): string => new Date(date).toLocaleDateString('fr-FR'),
     },
   ]
 
@@ -113,26 +122,41 @@ export function ClientDetails({ id }: ClientDetailsProps) {
         { title: client ? `${client.firstName} ${client.lastName}` : '...' },
       ]} />
 
-      {/* Carte de Profil */}
       <Card style={{ borderRadius: 12, marginBottom: 24 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-          <Avatar size={80} src={client?.photo} icon={<UserOutlined />} />
+          <Avatar size={80} src={client?.photo ?? undefined} icon={<UserOutlined />} />
           {isEditing ? (
             <Space direction="vertical" style={{ flex: 1 }}>
-              <Input value={firstName} onChange={e => setFirstName(e.target.value)} placeholder="Prénom" />
-              <Input value={lastName} onChange={e => setLastName(e.target.value)} placeholder="Nom" />
-              <Input value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" />
-              <Input value={photo} onChange={e => setPhoto(e.target.value)} placeholder="Photo URL" />
+              <Input 
+                value={firstName} 
+                onChange={(e: ChangeEvent<HTMLInputElement>): void => setFirstName(e.target.value)} 
+                placeholder="Prénom" 
+              />
+              <Input 
+                value={lastName} 
+                onChange={(e: ChangeEvent<HTMLInputElement>): void => setLastName(e.target.value)} 
+                placeholder="Nom" 
+              />
+              <Input 
+                value={email} 
+                onChange={(e: ChangeEvent<HTMLInputElement>): void => setEmail(e.target.value)} 
+                placeholder="Email" 
+              />
+              <Input 
+                value={photo} 
+                onChange={(e: ChangeEvent<HTMLInputElement>): void => setPhoto(e.target.value)} 
+                placeholder="Photo URL" 
+              />
               <Space>
                 <Button type="primary" onClick={saveEdit}>Sauvegarder</Button>
-                <Button onClick={() => setIsEditing(false)}>Annuler</Button>
+                <Button onClick={(): void => setIsEditing(false)}>Annuler</Button>
               </Space>
             </Space>
           ) : (
             <div style={{ flex: 1 }}>
               <Title level={2} style={{ margin: 0 }}>
                 {client?.firstName} {client?.lastName}
-                <Button type="text" icon={<EditOutlined />} onClick={() => setIsEditing(true)} />
+                <Button type="text" icon={<EditOutlined />} onClick={(): void => setIsEditing(true)} />
               </Title>
               {client?.email && <Text type="secondary">{client.email}</Text>}
             </div>
@@ -140,7 +164,6 @@ export function ClientDetails({ id }: ClientDetailsProps) {
         </div>
       </Card>
 
-      {/* AJOUT : Tableau des Achats */}
       <Card title="Historique des achats" style={{ borderRadius: 12 }}>
         <Table<SaleRecord>
           dataSource={sales}

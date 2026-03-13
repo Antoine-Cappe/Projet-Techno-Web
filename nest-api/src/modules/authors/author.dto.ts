@@ -8,8 +8,8 @@ export class CreateAuthorDto {
   lastName: string;
 
   @IsString()
-  @IsOptional() // La photo est facultative selon le sujet
-  photoUrl?: string; // Ajoute cette ligne !
+  @IsOptional()
+  photoUrl?: string; 
 }
 
 export class UpdateAuthorDto {

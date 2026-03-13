@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { AuthorModel, CreateAuthorModel } from './author.model';
-import { AuthorEntity } from './author.entity';
+import { CreateAuthorModel, UpdateAuthorModel } from './author.model';
+import { AuthorEntity, AuthorId } from './author.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -11,31 +11,28 @@ export class AuthorRepository {
     private readonly authorRepository: Repository<AuthorEntity>,
   ) {}
 
-  // Pour la liste : on compte les livres
-  public async getAllAuthors(): Promise<any[]> {
+  public async getAllAuthors(): Promise<AuthorEntity[]> {
     return this.authorRepository.find({
       relations: ['books'],
     });
   }
 
-  // Correction Bug 4 : Récupérer un auteur précis avec ses livres
   public async getAuthorById(id: string): Promise<AuthorEntity | null> {
     return this.authorRepository.findOne({
-      where: { id: id as any },
-      relations: ['books'], // Crucial pour afficher la liste des livres
+      where: { id: id as AuthorId },
+      relations: ['books'],
     });
   }
 
-  public async createAuthor(author: CreateAuthorModel): Promise<AuthorModel> {
+  public async createAuthor(author: CreateAuthorModel): Promise<AuthorEntity> {
     return this.authorRepository.save(this.authorRepository.create(author));
   }
 
-  public async updateAuthor(id: string, data: any): Promise<AuthorEntity | null> {
+  public async updateAuthor(id: string, data: UpdateAuthorModel): Promise<AuthorEntity | null> {
     await this.authorRepository.update(id, data);
     return this.getAuthorById(id);
   }
-
-  // AJOUT : Supprimer l'auteur de la base de données
+  
   public async deleteAuthor(id: string): Promise<void> {
     await this.authorRepository.delete(id);
   }

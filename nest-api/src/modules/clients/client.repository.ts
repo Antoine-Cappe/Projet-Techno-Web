@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ClientEntity } from './entities/client.entity';
+import { ClientEntity, type ClientId } from './entities/client.entity'; // Import du type ClientId
 import { CreateClientDto, UpdateClientDto } from './dtos/client.dto';
 
 @Injectable()
@@ -16,19 +16,21 @@ export class ClientsRepository {
   }
 
   async getClientById(id: string): Promise<ClientEntity | null> {
-    return this.clientRepository.findOne({ where: { id } });
+    return this.clientRepository.findOne({ 
+      where: { id: id as ClientId } 
+    });
   }
 
   async createClient(dto: CreateClientDto): Promise<ClientEntity> {
-    const newClient = this.clientRepository.create(dto);
+    const newClient: ClientEntity = this.clientRepository.create(dto);
     return this.clientRepository.save(newClient);
   }
 
   async updateClient(id: string, dto: UpdateClientDto): Promise<void> {
-    await this.clientRepository.update(id, dto);
+    await this.clientRepository.update(id as ClientId, dto);
   }
 
   async deleteClient(id: string): Promise<void> {
-    await this.clientRepository.delete(id);
+    await this.clientRepository.delete(id as ClientId);
   }
 }

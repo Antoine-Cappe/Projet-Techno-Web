@@ -1,18 +1,23 @@
 import { useState } from 'react'
-import { createFileRoute } from '@tanstack/react-router'
-import { Table, Spin, Avatar, Typography, Button, Modal, Tooltip, Space } from 'antd'
+import { createFileRoute, Link } from '@tanstack/react-router'
+import { Table, Spin, Avatar, Typography, Button, Modal, Tooltip } from 'antd'
 import { UserOutlined, TeamOutlined, DeleteOutlined } from '@ant-design/icons'
 import { useClientProvider } from '../../clients/providers/useClientProvider'
 import { CreateClientModal } from '../../clients/components/CreateClientModal'
+
+import type { ReactElement } from 'react'
+import type { ColumnsType } from 'antd/es/table'
 import type { ClientModel } from '../../clients/ClientModel'
-import { Link } from '@tanstack/react-router';
 
 const { Title } = Typography
 
-// --- SOUS-COMPOSANT POUR L'ACTION DE SUPPRESSION ---
-// C'est ici que l'on reproduit la logique qui marche chez les auteurs
-function DeleteClientAction({ client, onDelete }: { client: ClientModel, onDelete: (id: string) => void }) {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+interface DeleteClientActionProps {
+  client: ClientModel;
+  onDelete: (id: string) => void;
+}
+
+function DeleteClientAction({ client, onDelete }: DeleteClientActionProps): ReactElement {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
   return (
     <>
@@ -21,18 +26,18 @@ function DeleteClientAction({ client, onDelete }: { client: ClientModel, onDelet
           type="text" 
           danger 
           icon={<DeleteOutlined />} 
-          onClick={() => setIsModalOpen(true)} // Ouvre la modale
+          onClick={(): void => setIsModalOpen(true)} 
         />
       </Tooltip>
 
       <Modal
         title="Confirmer la suppression"
         open={isModalOpen}
-        onOk={() => {
+        onOk={(): void => {
           onDelete(client.id)
           setIsModalOpen(false)
         }}
-        onCancel={() => setIsModalOpen(false)}
+        onCancel={(): void => setIsModalOpen(false)}
         okText="Supprimer"
         cancelText="Annuler"
         okButtonProps={{ danger: true }}
@@ -43,42 +48,47 @@ function DeleteClientAction({ client, onDelete }: { client: ClientModel, onDelet
   )
 }
 
-// --- COMPOSANT PRINCIPAL ---
 export const Route = createFileRoute('/clients/')({
   component: ClientsListPage,
 })
 
-function ClientsListPage() {
+function ClientsListPage(): ReactElement {
   const { clients, isLoading, createClient, deleteClient } = useClientProvider()
 
-  const columns = [
+  const columns: ColumnsType<ClientModel> = [
     {
       title: 'Photo',
       dataIndex: 'photo',
       key: 'photo',
-      render: (photo: string) => <Avatar src={photo} icon={<UserOutlined />} />,
+      render: (photo: string | undefined): ReactElement => (
+        <Avatar src={photo ?? undefined} icon={<UserOutlined />} />
+      ),
     },
     { 
-    title: 'Prénom', 
-    dataIndex: 'firstName', 
-    key: 'firstName',
-    render: (text: string, record: any) => (
-      <Link to="/clients/$clientId" params={{ clientId: record.id }}>
-        {text}
-      </Link>
-    )
-  },
-    { title: 'Nom', dataIndex: 'lastName', key: 'lastName' },
+      title: 'Prénom', 
+      dataIndex: 'firstName', 
+      key: 'firstName',
+      render: (text: string, record: ClientModel): ReactElement => (
+        <Link to="/clients/$clientId" params={{ clientId: record.id }}>
+          {text}
+        </Link>
+      )
+    },
+    { 
+      title: 'Nom', 
+      dataIndex: 'lastName', 
+      key: 'lastName' 
+    },
     { 
       title: 'Livres achetés', 
       dataIndex: 'purchasedBooksCount', 
       key: 'purchasedBooksCount',
-      render: (count: number) => <strong>{count}</strong> 
+      render: (count: number): ReactElement => <strong>{count}</strong> 
     },
     {
       title: 'Actions',
       key: 'actions',
-      render: (_: any, record: ClientModel) => (
+      render: (_: unknown, record: ClientModel): ReactElement => (
         <DeleteClientAction client={record} onDelete={deleteClient} />
       ),
     },
@@ -95,9 +105,16 @@ function ClientsListPage() {
       </div>
       
       {isLoading ? (
-        <div style={{ textAlign: 'center', padding: '50px' }}><Spin size="large" /></div>
+        <div style={{ textAlign: 'center', padding: '50px' }}>
+          <Spin size="large" />
+        </div>
       ) : (
-        <Table dataSource={clients} columns={columns} rowKey="id" pagination={{ pageSize: 8 }} />
+        <Table<ClientModel> 
+          dataSource={clients} 
+          columns={columns} 
+          rowKey="id" 
+          pagination={{ pageSize: 8 }} 
+        />
       )}
     </div>
   )

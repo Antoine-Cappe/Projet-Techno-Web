@@ -11,7 +11,6 @@ export class AuthorController {
     return this.authorService.getAllAuthors();
   }
 
-  // Correction Bug 4 : Nouvelle route pour les détails
   @Get(':id')
   getAuthorById(@Param('id') id: string) {
     return this.authorService.getAuthorById(id);
@@ -30,7 +29,6 @@ export class AuthorController {
     return this.authorService.updateAuthor(id, updateAuthorDto);
   }
 
-  // AJOUT : La route que le Frontend appelle quand on clique sur la poubelle
   @Delete(':id')
   public async deleteAuthor(@Param('id') id: string) {
     return this.authorService.deleteAuthor(id);

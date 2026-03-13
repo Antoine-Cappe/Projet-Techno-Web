@@ -3,26 +3,26 @@ import { ClientsService } from './client.service';
 import { CreateClientDto, UpdateClientDto } from './dtos/client.dto';
 import { ClientModel } from './models/client.model';
 
-@Controller('clients') // Toutes les routes commenceront par /clients [cite: 3257, 3382]
+@Controller('clients')
 export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
 
-  @Get() // Liste des clients [cite: 57, 3360]
+  @Get() 
   async getClients(): Promise<ClientModel[]> {
     return this.clientsService.getClients();
   }
 
-  @Get(':clientId') // Détails d'un client [cite: 66, 3360]
+  @Get(':clientId')
   async getClientById(@Param('clientId') id: string): Promise<ClientModel> {
     return this.clientsService.getClientById(id);
   }
 
-  @Post() // Création d'un client [cite: 64, 3360]
+  @Post()
   async createClient(@Body() dto: CreateClientDto): Promise<ClientModel> {
     return this.clientsService.createClient(dto);
   }
 
-  @Patch(':clientId') // Modification d'un client [cite: 68, 3361]
+  @Patch(':clientId')
   async updateClient(
     @Param('clientId') id: string,
     @Body() dto: UpdateClientDto,
@@ -30,7 +30,7 @@ export class ClientsController {
     return this.clientsService.updateClient(id, dto);
   }
 
-  @Delete(':clientId') // Suppression d'un client [cite: 60, 3361]
+  @Delete(':clientId')
   async deleteClient(@Param('clientId') id: string): Promise<void> {
     return this.clientsService.deleteClient(id);
   }

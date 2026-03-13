@@ -6,7 +6,6 @@ import { BookEntity } from '../../books/entities/book.entity';
 export class SaleEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
   
   @Column({ name: 'client_id', type: 'uuid' })
   clientId: string;

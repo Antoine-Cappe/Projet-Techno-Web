@@ -6,13 +6,13 @@ import {
   UpdateBookModel,
 } from './book.model';
 import { BookRepository } from './book.repository';
-import { SalesRepository } from '../sales/sales.repository'; // Import du repository des ventes
+import { SalesRepository } from '../sales/sales.repository';
 
 @Injectable()
 export class BookService {
   constructor(
     private readonly bookRepository: BookRepository,
-    private readonly salesRepository: SalesRepository, // Injection du repository des ventes
+    private readonly salesRepository: SalesRepository,
   ) {}
 
   public async getAllBooks(
@@ -20,14 +20,9 @@ export class BookService {
   ): Promise<[BookModel[], number]> {
     const [books, totalCount] = await this.bookRepository.getAllBooks(input);
 
-    // On enrichit chaque livre avec son nombre de ventes
     const booksWithSales = await Promise.all(
-      books.map(async (book) => {
-        // On récupère le compte des ventes pour ce livre spécifique
-        // Note: Assure-toi que countByBookId est défini dans ton SalesRepository
-        const purchasedCount = await this.salesRepository.findAll({
-          where: { bookId: book.id as any }
-        }).then(sales => sales.length);
+      books.map(async (book): Promise<BookModel> => {
+        const purchasedCount = await this.salesRepository.countByBookId(book.id);
 
         return {
           ...book,
@@ -43,10 +38,7 @@ export class BookService {
     const book = await this.bookRepository.getBookById(id);
     if (!book) return undefined;
 
-    // On ajoute aussi le compte pour le détail d'un livre seul
-    const purchasedCount = await this.salesRepository.findAll({
-      where: { bookId: id as any }
-    }).then(sales => sales.length);
+    const purchasedCount = await this.salesRepository.countByBookId(id);
 
     return {
       ...book,

@@ -1,9 +1,11 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
+export type ClientId = string & { __brand: 'Client' };
+
 @Entity('Clients')
 export class ClientEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id: ClientId;
 
   @Column({ name: 'first_name', type: 'varchar' })
   firstName: string;

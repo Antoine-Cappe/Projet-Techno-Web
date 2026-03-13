@@ -33,7 +33,6 @@ export const useClientProvider = () => {
     }
   }
 
-  // AJOUT : Fonction de mise à jour (utile pour plus tard)
   const updateClient = async (id: string, client: UpdateClientModel) => {
     try {
       await axios.patch(`http://localhost:3000/clients/${id}`, client)
@@ -43,7 +42,6 @@ export const useClientProvider = () => {
     }
   }
 
-  // AJOUT : La fonction qui manquait et causait ton erreur
   const deleteClient = async (id: string) => {
     try {
       await axios.delete(`http://localhost:3000/clients/${id}`)
@@ -63,6 +61,6 @@ export const useClientProvider = () => {
     refresh: fetchClients,
     createClient,
     updateClient,
-    deleteClient, // Maintenant TypeScript sera content !
+    deleteClient,
   }
 }

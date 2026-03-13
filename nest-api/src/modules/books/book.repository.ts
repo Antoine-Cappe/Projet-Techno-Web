@@ -67,7 +67,7 @@ export class BookRepository {
 
     const newBook = this.bookRepository.create({
       ...book,
-      photoUrl: book.photoUrl // Mapping manuel si nécessaire
+      photoUrl: book.photoUrl
     });
 
     return this.bookRepository.save(this.bookRepository.create(book));
