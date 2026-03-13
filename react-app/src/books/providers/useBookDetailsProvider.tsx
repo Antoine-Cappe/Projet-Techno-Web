@@ -1,17 +1,46 @@
 import { useState } from 'react'
-import type { BookModel } from '../BookModel'
+import type { BookModel, UpdateBookModel } from '../BookModel'
+import axios from 'axios'
 
 export const useBookDetailsProvider = (id: string) => {
   const [isLoading, setIsLoading] = useState(false)
   const [book, setBook] = useState<BookModel | null>(null)
+  const [sales, setSales] = useState<any[]>([]) // État pour stocker les ventes
 
-  const loadBook = () => {
+  const loadBook = async () => {
     setIsLoading(true)
-    fetch(`http://localhost:3000/books/${id}`)
-      .then(response => response.json())
-      .then(data => setBook(data))
-      .finally(() => setIsLoading(false))
+    try {
+      // 1. Charger le livre
+      const bookRes = await axios.get(`http://localhost:3000/books/${id}`)
+      setBook(bookRes.data)
+      
+      // 2. Charger les ventes associées à ce livre
+      const salesRes = await axios.get(`http://localhost:3000/sales/book/${id}`)
+      setSales(salesRes.data)
+    } catch (err) {
+      console.error("Erreur lors du chargement :", err)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  return { isLoading, book, loadBook }
+  const updateBook = async (input: UpdateBookModel) => {
+    try {
+      await axios.patch(`http://localhost:3000/books/${id}`, input)
+      await loadBook()
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const recordSale = async (clientId: string, date: string) => {
+    try {
+      await axios.post('http://localhost:3000/sales', { bookId: id, clientId, date })
+      await loadBook() // Recharge pour voir le nouvel acheteur
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  return { isLoading, book, sales, loadBook, updateBook, recordSale }
 }
