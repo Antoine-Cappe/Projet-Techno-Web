@@ -21,9 +21,9 @@ export class SalesRepository {
   }
 
   async findByBookId(bookId: string): Promise<SaleEntity[]> {
-    console.log(`[DB] 🔍 Recherche pour bookId : ${bookId}`);
+    console.log(`[DB]  Recherche pour bookId : ${bookId}`);
 
-    // On utilise LOWER pour éviter les problèmes de casse dans SQLite
+    
     const sales = await this.saleRepository
       .createQueryBuilder('sale')
       .leftJoinAndSelect('sale.client', 'client')
@@ -32,7 +32,7 @@ export class SalesRepository {
       .getMany();
 
     if (sales.length === 0) {
-      // LOG DE SECOURS : affiche la première ligne de la table pour comparer les IDs
+      
       const rawData = await this.saleRepository.query('SELECT * FROM sales LIMIT 1');
       console.log('[DB] DEBUG - Contenu brut de la table sales :', rawData);
     }
