@@ -50,7 +50,7 @@ export function CreateBookModal({ onCreate }: CreateBookModalProps) {
         onOk={() => {
           if (authorId) {
             // Inclusion de photoUrl dans l'objet envoyé
-            onCreate({ title, yearPublished, authorId, photoUrl }) 
+            onCreate({ title, yearPublished, authorId, photoUrl })
             onClose()
           }
         }}
@@ -60,9 +60,15 @@ export function CreateBookModal({ onCreate }: CreateBookModalProps) {
           disabled: !authorId || !title?.length || !yearPublished,
         }}
       >
-        <Space direction="vertical" style={{ width: '100%', marginTop: 16 }} size={16}>
+        <Space
+          direction="vertical"
+          style={{ width: '100%', marginTop: 16 }}
+          size={16}
+        >
           <div>
-            <Text strong style={{ display: 'block', marginBottom: 6 }}>Title</Text>
+            <Text strong style={{ display: 'block', marginBottom: 6 }}>
+              Title
+            </Text>
             <Input
               placeholder="Enter book title"
               value={title}
@@ -71,7 +77,9 @@ export function CreateBookModal({ onCreate }: CreateBookModalProps) {
             />
           </div>
           <div>
-            <Text strong style={{ display: 'block', marginBottom: 6 }}>Author</Text>
+            <Text strong style={{ display: 'block', marginBottom: 6 }}>
+              Author
+            </Text>
             <Select
               placeholder="Select an author"
               style={{ width: '100%' }}
@@ -85,7 +93,9 @@ export function CreateBookModal({ onCreate }: CreateBookModalProps) {
             />
           </div>
           <div>
-            <Text strong style={{ display: 'block', marginBottom: 6 }}>Year Published</Text>
+            <Text strong style={{ display: 'block', marginBottom: 6 }}>
+              Year Published
+            </Text>
             <Input
               type="number"
               placeholder="e.g. 2026"
@@ -96,7 +106,9 @@ export function CreateBookModal({ onCreate }: CreateBookModalProps) {
           </div>
           {/* Nouveau champ pour la Photo URL */}
           <div>
-            <Text strong style={{ display: 'block', marginBottom: 6 }}>Photo URL (Optional)</Text>
+            <Text strong style={{ display: 'block', marginBottom: 6 }}>
+              Photo URL (Optional)
+            </Text>
             <Input
               placeholder="Paste the image URL here"
               value={photoUrl}

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import type { ReactElement } from 'react'
-import { Typography } from 'antd'
+import { Breadcrumb, Typography } from 'antd'
 import { useAuthorProvider } from '../providers/useAuthorProvider'
 import { AuthorListItem } from './AuthorListItem'
 import { CreateAuthorModal } from './CreateAuthorModal'
@@ -8,7 +8,8 @@ import { CreateAuthorModal } from './CreateAuthorModal'
 const { Title } = Typography
 
 export function AuthorList(): ReactElement {
-  const { authors, loadAuthors, createAuthor, deleteAuthor } = useAuthorProvider()
+  const { authors, loadAuthors, createAuthor, deleteAuthor } =
+    useAuthorProvider()
 
   useEffect(() => {
     loadAuthors()
@@ -16,6 +17,7 @@ export function AuthorList(): ReactElement {
 
   return (
     <div>
+      <Breadcrumb style={{ marginBottom: 16 }} items={[{ title: 'Authors' }]} />
       <div
         style={{
           display: 'flex',
@@ -31,7 +33,11 @@ export function AuthorList(): ReactElement {
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {authors.map(author => (
-          <AuthorListItem key={author.id} author={author} onDelete={deleteAuthor} />
+          <AuthorListItem
+            key={author.id}
+            author={author}
+            onDelete={deleteAuthor}
+          />
         ))}
       </div>
     </div>

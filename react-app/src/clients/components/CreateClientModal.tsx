@@ -1,23 +1,25 @@
 import { useState } from 'react'
-import type { CreateAuthorModel } from '../AuthorModel'
+import type { CreateClientModel } from '../ClientModel'
 import { Button, Input, Modal, Space, Typography } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 
 const { Text } = Typography
 
-interface CreateAuthorModalProps {
-  onCreate: (author: CreateAuthorModel) => void
+interface CreateClientModalProps {
+  onCreate: (client: CreateClientModel) => void
 }
 
-export function CreateAuthorModal({ onCreate }: CreateAuthorModalProps) {
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [firstName, setFirstName] = useState<string>('')
-  const [lastName, setLastName] = useState<string>('')
-  const [photo, setPhoto] = useState<string>('')
+export function CreateClientModal({ onCreate }: CreateClientModalProps) {
+  const [isOpen, setIsOpen] = useState(false)
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [photo, setPhoto] = useState('')
 
   const onClose = () => {
     setFirstName('')
     setLastName('')
+    setEmail('')
     setPhoto('')
     setIsOpen(false)
   }
@@ -31,18 +33,24 @@ export function CreateAuthorModal({ onCreate }: CreateAuthorModalProps) {
         onClick={() => setIsOpen(true)}
         style={{ borderRadius: 10 }}
       >
-        Add Author
+        Ajouter un client
       </Button>
       <Modal
-        title="Add a new author"
+        title="Ajouter un nouveau client"
         open={isOpen}
         onCancel={onClose}
-        okText="Create"
+        okText="Créer"
+        cancelText="Annuler"
         onOk={() => {
-          onCreate({ firstName, lastName, photoUrl: photo || undefined })
+          onCreate({
+            firstName,
+            lastName,
+            email: email || undefined,
+            photo: photo || undefined,
+          })
           onClose()
         }}
-        okButtonProps={{ disabled: !firstName?.length || !lastName?.length }}
+        okButtonProps={{ disabled: !firstName.length || !lastName.length }}
       >
         <Space
           direction="vertical"
@@ -51,10 +59,10 @@ export function CreateAuthorModal({ onCreate }: CreateAuthorModalProps) {
         >
           <div>
             <Text strong style={{ display: 'block', marginBottom: 6 }}>
-              First Name
+              Prénom
             </Text>
             <Input
-              placeholder="Enter first name"
+              placeholder="Entrer le prénom"
               value={firstName}
               onChange={e => setFirstName(e.target.value)}
               size="large"
@@ -62,10 +70,10 @@ export function CreateAuthorModal({ onCreate }: CreateAuthorModalProps) {
           </div>
           <div>
             <Text strong style={{ display: 'block', marginBottom: 6 }}>
-              Last Name
+              Nom
             </Text>
             <Input
-              placeholder="Enter last name"
+              placeholder="Entrer le nom"
               value={lastName}
               onChange={e => setLastName(e.target.value)}
               size="large"
@@ -73,10 +81,21 @@ export function CreateAuthorModal({ onCreate }: CreateAuthorModalProps) {
           </div>
           <div>
             <Text strong style={{ display: 'block', marginBottom: 6 }}>
-              Photo URL (optional)
+              Email (facultatif)
             </Text>
             <Input
-              placeholder="https://example.com/photo.jpg"
+              placeholder="exemple@email.com"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              size="large"
+            />
+          </div>
+          <div>
+            <Text strong style={{ display: 'block', marginBottom: 6 }}>
+              Photo URL (facultatif)
+            </Text>
+            <Input
+              placeholder="https://exemple.com/photo.jpg"
               value={photo}
               onChange={e => setPhoto(e.target.value)}
               size="large"

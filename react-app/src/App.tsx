@@ -1,5 +1,10 @@
 import { Card, Col, Row, Typography } from 'antd'
-import { BookOutlined, UserOutlined, TeamOutlined, RocketOutlined } from '@ant-design/icons'
+import {
+  BookOutlined,
+  UserOutlined,
+  TeamOutlined,
+  RocketOutlined,
+} from '@ant-design/icons'
 import { Link } from '@tanstack/react-router'
 
 const { Title, Paragraph } = Typography
@@ -48,7 +53,8 @@ function App() {
                   width: 48,
                   height: 48,
                   borderRadius: 12,
-                  background: 'linear-gradient(135deg, #4f46e5 0%, #6366f1 100%)',
+                  background:
+                    'linear-gradient(135deg, #4f46e5 0%, #6366f1 100%)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -60,8 +66,11 @@ function App() {
               <Title level={4} style={{ margin: 0 }}>
                 Books
               </Title>
-              <Paragraph style={{ color: '#64748b', marginTop: 8, marginBottom: 0 }}>
-                Browse, add, and manage your book collection with full CRUD operations.
+              <Paragraph
+                style={{ color: '#64748b', marginTop: 8, marginBottom: 0 }}
+              >
+                Browse, add, and manage your book collection with full CRUD
+                operations.
               </Paragraph>
             </Card>
           </Link>
@@ -82,7 +91,8 @@ function App() {
                   width: 48,
                   height: 48,
                   borderRadius: 12,
-                  background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
+                  background:
+                    'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -94,8 +104,11 @@ function App() {
               <Title level={4} style={{ margin: 0 }}>
                 Authors
               </Title>
-              <Paragraph style={{ color: '#64748b', marginTop: 8, marginBottom: 0 }}>
-                View author profiles, their published works, and sales statistics.
+              <Paragraph
+                style={{ color: '#64748b', marginTop: 8, marginBottom: 0 }}
+              >
+                View author profiles, their published works, and sales
+                statistics.
               </Paragraph>
             </Card>
           </Link>
@@ -116,7 +129,8 @@ function App() {
                   width: 48,
                   height: 48,
                   borderRadius: 12,
-                  background: 'linear-gradient(135deg, #059669 0%, #34d399 100%)',
+                  background:
+                    'linear-gradient(135deg, #059669 0%, #34d399 100%)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -128,7 +142,9 @@ function App() {
               <Title level={4} style={{ margin: 0 }}>
                 Clients
               </Title>
-              <Paragraph style={{ color: '#64748b', marginTop: 8, marginBottom: 0 }}>
+              <Paragraph
+                style={{ color: '#64748b', marginTop: 8, marginBottom: 0 }}
+              >
                 Manage your client database and track their reading preferences.
               </Paragraph>
             </Card>
@@ -151,7 +167,8 @@ function App() {
               Getting Started
             </Title>
             <Paragraph style={{ color: '#64748b', margin: 0 }}>
-              Select a section above to start managing your library. Use the navigation bar to switch between sections at any time.
+              Select a section above to start managing your library. Use the
+              navigation bar to switch between sections at any time.
             </Paragraph>
           </div>
         </div>
