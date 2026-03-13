@@ -51,4 +51,16 @@ export class SalesRepository {
       order: { date: 'DESC' },
     });
   }
+
+  public async findAll(options?: any): Promise<SaleEntity[]> {
+    return this.saleRepository.find(options);
+  }
+
+  public async getSalesByClientId(clientId: string): Promise<SaleEntity[]> {
+    return this.saleRepository.find({
+      where: { clientId: clientId as any },
+      relations: ['book', 'book.author'], // Indispensable pour afficher le titre et l'auteur
+      order: { date: 'DESC' }, // Les plus récents en premier
+    });
+  }
 }

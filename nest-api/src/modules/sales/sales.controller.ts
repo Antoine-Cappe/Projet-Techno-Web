@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, Param } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, Query } from '@nestjs/common';
 import { SalesRepository } from './sales.repository';
 import { CreateSaleDto } from './dtos/sale.dto';
 
@@ -12,11 +12,14 @@ export class SalesController {
     return this.salesRepository.createSale(dto);
   }
 
-  @Get('book/:bookId')
-  async getSalesByBook(@Param('bookId') bookId: string) {
-    console.log(`[SALES] Requête reçue pour les ventes du livre ID : ${bookId}`);
-    const results = await this.salesRepository.findByBookId(bookId);
-    console.log(`[SALES] Nombre de ventes trouvées en base : ${results.length}`);
-    return results;
+  @Get()
+  async getSales(@Query('clientId') clientId?: string) {
+    if (clientId) {
+      return this.salesRepository.getSalesByClientId(clientId);
+    }
+    // Correction : on appelle la méthode findAll du repository
+    return this.salesRepository.findAll({ 
+      relations: ['book', 'client'] 
+    });
   }
 }

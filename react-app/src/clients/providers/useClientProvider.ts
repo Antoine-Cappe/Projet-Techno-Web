@@ -1,26 +1,68 @@
-import { useState, useEffect } from 'react';
-import type { ClientModel } from '../ClientModel';
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import type {
+  ClientModel,
+  CreateClientModel,
+  UpdateClientModel,
+} from '../ClientModel'
 
 export const useClientProvider = () => {
-  const [clients, setClients] = useState<ClientModel[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [clients, setClients] = useState<ClientModel[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   const fetchClients = async () => {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      const response = await fetch('http://localhost:3000/clients');
-      const data = await response.json();
-      setClients(data);
+      const response = await axios.get<ClientModel[]>(
+        'http://localhost:3000/clients',
+      )
+      setClients(response.data)
     } catch (error) {
-      console.error("Erreur lors de la récupération des clients", error);
+      console.error('Erreur lors de la récupération des clients', error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
+
+  const createClient = async (client: CreateClientModel) => {
+    try {
+      await axios.post('http://localhost:3000/clients', client)
+      await fetchClients()
+    } catch (error) {
+      console.error('Erreur lors de la création du client', error)
+    }
+  }
+
+  // AJOUT : Fonction de mise à jour (utile pour plus tard)
+  const updateClient = async (id: string, client: UpdateClientModel) => {
+    try {
+      await axios.patch(`http://localhost:3000/clients/${id}`, client)
+      await fetchClients()
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du client', error)
+    }
+  }
+
+  // AJOUT : La fonction qui manquait et causait ton erreur
+  const deleteClient = async (id: string) => {
+    try {
+      await axios.delete(`http://localhost:3000/clients/${id}`)
+      await fetchClients()
+    } catch (error) {
+      console.error('Erreur lors de la suppression du client', error)
+    }
+  }
 
   useEffect(() => {
-    fetchClients();
-  }, []);
+    fetchClients()
+  }, [])
 
-  return { clients, isLoading, refresh: fetchClients };
-};
+  return {
+    clients,
+    isLoading,
+    refresh: fetchClients,
+    createClient,
+    updateClient,
+    deleteClient, // Maintenant TypeScript sera content !
+  }
+}
