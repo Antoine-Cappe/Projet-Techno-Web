@@ -4,6 +4,7 @@ import {
   InfoOutlined,
   UserOutlined,
   TeamOutlined,
+  ShoppingOutlined, 
 } from '@ant-design/icons'
 import { Layout as AntLayout, Menu } from 'antd'
 import type { ReactNode } from 'react'
@@ -24,6 +25,7 @@ export function Layout({ children }: LayoutProps) {
     { label: <Link to="/books">Books</Link>, key: '/books', icon: <BookOutlined /> },
     { label: <Link to="/authors">Authors</Link>, key: '/authors', icon: <UserOutlined /> },
     { label: <Link to="/clients">Clients</Link>, key: '/clients', icon: <TeamOutlined /> },
+    { label: <Link to="/sales">Sales</Link>, key: '/sales', icon: <ShoppingOutlined /> }, 
     { label: <Link to="/about">About</Link>, key: '/about', icon: <InfoOutlined /> },
   ]
 
